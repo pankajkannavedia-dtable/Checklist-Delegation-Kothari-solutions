@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      color: #333;
+    }
+    
+    .container {
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .nav-menu {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: nowrap;
+      width: 100%;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    .nav-logo img {
+      height: 40px;
+      max-height: 40px;
+      object-fit: contain;
+    }
+    
+    .nav-link {
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      color: #666;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+      font-size: 13px;
+      margin-right: 4px;
+    }
+    
+    .nav-link:hover {
+      color: #6C63FF;
+      background: rgba(108, 99, 255, 0.1);
+      border-color: rgba(108, 99, 255, 0.2);
+    }
+    
+    .nav-link.active {
+      background: linear-gradient(135deg, #6C63FF 0%, #5A54D4 100%);
+      color: white;
+      box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3);
+    }
+    
+    .user-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .user-avatar {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #6C63FF 0%, #5A54D4 100%);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 14px;
+      box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3);
+    }
+    
+    .user-name {
+      font-weight: 600;
+      color: #333;
+      font-size: 13px;
+    }
+    
+    .user-role {
+      color: #888;
+      font-size: 11px;
+      display: block;
+      margin-top: 1px;
+    }
+    
+    .logout-btn {
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(238, 90, 82, 0.3);
+    }
+    
+    .logout-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(238, 90, 82, 0.4);
+    }
+
+
+    /* Table Container */
+    .table-container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      overflow: hidden;
+      margin-top: 20px;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+    }
+    
+    th, td {
+      padding: 15px 12px;
+      text-align: left;
+      border-bottom: 1px solid #e9ecef;
+      font-size: 13px;
+    }
+    
+    th {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      color: #333;
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    
+    tr:hover {
+      background-color: rgba(108, 99, 255, 0.05);
+    }
+    
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Navigation Menu -->
+    <div class="nav-menu">
+      <div class="nav-container">
+        <div class="nav-left">
+          <div class="nav-logo">
+            <img src="https://lh3.googleusercontent.com/a/ACg8ocITgr1Y3o12Jh3UFwdG3QA0XYrb0tN9fzm4WuheSoP61Ye4P0E=s432-c-no" alt="RJ Associates">
+          </div>
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=index" class="nav-link">Delegation</a>
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=doer" class="nav-link">Doer Dashboard</a>
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=scorecard" class="nav-link">Score Card</a>
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=checklist" class="nav-link">Checklist</a>    
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=Dashboard" class="nav-link">Dashboard</a>
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=Setting" class="nav-link">Setting</a>
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=CompanyChart" class="nav-link">Company Chart</a>
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=Expense" class="nav-link">Expense</a> 
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=VendorMangement" class="nav-link active">VendorMangement</a>  
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=MISScoring" class="nav-link">MIS Scoring</a>
+        </div>
+     
+        <!-- User info and logout container -->
+        <div class="user-container">
+          <div class="user-info">
+            <div class="user-avatar" id="userAvatar">U</div>
+            <span>
+              <span class="user-name" id="userName">User Name</span>
+              <span class="user-role" id="userRole">Admin</span>
+            </span>
+          </div>
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=logout" class="logout-btn">Logout</a>
+        </div>
+      </div>
+    </div>
+
+<script>
+
+// Make sure user data is loaded and displayed
+document.addEventListener('DOMContentLoaded', function() {
+  // User session is already included in the page by includeUserData()
+  const userData = <?!= includeUserData(); ?>;
+  
+  // Check if user data exists and user elements exist
+  if (userData) {
+    // Get the user info elements
+    const userNameElement = document.getElementById('userName');
+    const userRoleElement = document.getElementById('userRole');
+    const userAvatarElement = document.getElementById('userAvatar');
+    
+    // Update user info if elements exist
+    if (userNameElement) userNameElement.textContent = userData.name;
+    if (userRoleElement) userRoleElement.textContent = userData.role;
+    if (userAvatarElement) userAvatarElement.textContent = userData.name.charAt(0).toUpperCase();
+  }
+});
+
+window.onload = function() {
+  // Get user session data
+  const userData = <?!= includeUserData(); ?>;
+  
+  if (userData) {
+    // Display user info
+    const userNameElement = document.getElementById('userName');
+    const userRoleElement = document.getElementById('userRole');
+    const userAvatarElement = document.getElementById('userAvatar');
+    
+    if (userNameElement && userRoleElement && userAvatarElement) {
+      userNameElement.textContent = userData.name;
+      userRoleElement.textContent = userData.role;
+      
+      // Set avatar initial
+      const initialLetter = userData.name.charAt(0).toUpperCase();
+      userAvatarElement.textContent = initialLetter;
+    } else {
+      console.error('User info elements not found in DOM');
+    }
+    
+    // Load data
+    loadData();
+  } else {
+    // Redirect to login if no valid session
+    window.location.href = '<?= ScriptApp.getService().getUrl(); ?>?page=logout';
+  }
+};
+      
+      // Define loadData function for your existing functionality
+      function loadData() {
+        google.script.run
+          .withSuccessHandler(initializeData)
+          .withFailureHandler(showError)
+          .getVendorManagement();
+          
+      }
+
+function displayData(data) {
+  const tableBody = document.getElementById('tableBody');
+  const loadingDiv = document.getElementById('loading');
+  const table = document.getElementById('vendorManagementTable');
+  
+  tableBody.innerHTML = '';
+  
+  data.forEach(row => {
+    const tr = document.createElement('tr');
+    
+    row.forEach(cell => {
+      const td = document.createElement('td');
+      td.textContent = cell;
+      tr.appendChild(td);
+    });
+    
+    tableBody.appendChild(tr);
+  });
+  
+  loadingDiv.style.display = 'none';
+  table.style.display = 'table';
+}
+
+function showError(error) {
+  const loadingDiv = document.getElementById('loading');
+  loadingDiv.innerHTML = 'Error loading data: ' + error;
+  loadingDiv.style.color = 'red';
+}
+      </script>
+    </div>
+  </body>
+</html>

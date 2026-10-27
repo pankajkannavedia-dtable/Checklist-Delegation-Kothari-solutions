@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+      
+      body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+      
+      .container {
+        max-width: 420px;
+        width: 100%;
+        background-color: white;
+        padding: 40px;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        transform: translateY(0);
+        transition: transform 0.3s ease;
+        position: relative;
+      }
+      
+      .container:hover {
+        transform: translateY(-5px);
+      }
+      
+      h1 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #333;
+        font-weight: 600;
+        font-size: 24px;
+      }
+      
+      .server-status {
+        padding: 12px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 500;
+        display: none;
+      }
+      
+      .server-status.online {
+        background-color: #F0F9EB;
+        color: #52C41A;
+        border: 1px solid #B7EB8F;
+      }
+      
+      .server-status.offline {
+        background-color: #FFF3F3;
+        color: #E53935;
+        border: 1px solid #FFCDD2;
+      }
+      
+      .server-status.checking {
+        background-color: #FFF8E1;
+        color: #FF8F00;
+        border: 1px solid #FFE082;
+      }
+      
+      .form-group {
+        margin-bottom: 5px;
+        position: relative;
+      }
+      
+      .floating-label {
+        position: relative;
+        margin-bottom: 20px;
+      }
+      
+      .floating-label input {
+        width: 100%;
+        height: 56px;
+        padding: 20px 16px 10px;
+        font-size: 16px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        background-color: white;
+        transition: all 0.3s;
+        box-sizing: border-box;
+        color: #333;
+        font-family: 'Poppins', sans-serif;
+      }
+      
+      .floating-label label {
+        position: absolute;
+        top: 20px;
+        left: 16px;
+        color: #888;
+        font-size: 16px;
+        transition: all 0.3s;
+        pointer-events: none;
+        font-weight: 500;
+      }
+      
+      .floating-label input:focus,
+      .floating-label input:not(:placeholder-shown) {
+        border-color: #6C63FF;
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.1);
+      }
+      
+      .floating-label input:focus + label,
+      .floating-label input:not(:placeholder-shown) + label {
+        top: 8px;
+        left: 16px;
+        font-size: 12px;
+        color: #6C63FF;
+        font-weight: 600;
+      }
+      
+      .btn {
+        display: block;
+        width: 100%;
+        padding: 16px;
+        background: linear-gradient(135deg, #6C63FF 0%, #5A54D4 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.3s;
+        box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3);
+        text-decoration: none;
+      }
+      
+      .btn:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(108, 99, 255, 0.4);
+      }
+      
+      .btn:active {
+        transform: translateY(0);
+      }
+      
+      .btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+      
+      .btn-secondary {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+        margin-top: 15px;
+        width: 100%;
+        display: block;
+      }
+      
+      .btn-secondary:hover {
+        box-shadow: 0 6px 16px rgba(40, 167, 69, 0.4);
+      }
+      
+      .error-message, 
+      .success-message {
+        padding: 14px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        text-align: center;
+        display: none;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      
+      .error-message {
+        background-color: #FFF3F3;
+        color: #E53935;
+        border: 1px solid #FFCDD2;
+      }
+      
+      .success-message {
+        background-color: #F0F9EB;
+        color: #52C41A;
+        border: 1px solid #B7EB8F;
+      }
+      
+      .fallback-link {
+        display: none;
+        margin-top: 20px;
+        text-align: center;
+      }
+      
+      .fallback-text {
+        color: #666;
+        font-size: 14px;
+        margin-bottom: 15px;
+      }
+      
+      .retry-section {
+        text-align: center;
+        margin-top: 20px;
+        display: none;
+      }
+      
+      .retry-btn {
+        background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      
+      .retry-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+      }
+      
+      .status-indicator {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        margin-right: 8px;
+        animation: pulse 2s infinite;
+      }
+      
+      .status-indicator.online {
+        background-color: #52C41A;
+      }
+      
+      .status-indicator.offline {
+        background-color: #E53935;
+      }
+      
+      .status-indicator.checking {
+        background-color: #FF8F00;
+      }
+      
+      @keyframes pulse {
+        0% { opacity: 1; }
+        50% { opacity: 0.5; }
+        100% { opacity: 1; }
+      }
+      
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .form-group {
+        animation: fadeIn 0.5s ease forwards;
+      }
+      
+      .form-group:nth-child(1) { animation-delay: 0.1s; }
+      .form-group:nth-child(2) { animation-delay: 0.2s; }
+      .form-group:nth-child(3) { animation-delay: 0.3s; }
+      
+      .container::before {
+        content: '';
+        position: absolute;
+        top: -15px;
+        right: -15px;
+        width: 70px;
+        height: 70px;
+        background-color: rgba(108, 99, 255, 0.1);
+        border-radius: 50%;
+        z-index: -1;
+      }
+      
+      .container::after {
+        content: '';
+        position: absolute;
+        bottom: -20px;
+        left: -20px;
+        width: 100px;
+        height: 100px;
+        background-color: rgba(108, 99, 255, 0.05);
+        border-radius: 50%;
+        z-index: -1;
+      }
+
+
+.floating-label select {
+  width: 100%;
+  height: 56px;
+  padding: 20px 16px 10px;
+  font-size: 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: white;
+  transition: all 0.3s;
+  box-sizing: border-box;
+  color: #333;
+  font-family: 'Poppins', sans-serif;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 20px;
+  cursor: pointer;
+}
+
+.floating-label select:focus,
+.floating-label select:not([value=""]) {
+  border-color: #6C63FF;
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.1);
+}
+
+.floating-label select:focus + label,
+.floating-label select:not([value=""]) + label {
+  top: 8px;
+  left: 16px;
+  font-size: 12px;
+  color: #6C63FF;
+  font-weight: 600;
+}
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Task Tracking</h1>
+      
+      <!-- Server Status Indicator -->
+      <div id="serverStatus" class="server-status checking">
+        <span class="status-indicator checking"></span>
+        Checking server status...
+      </div>
+      
+      <div id="loginError" class="error-message"></div>
+      <div id="loginSuccess" class="success-message"></div>
+      
+      <div class="form-group">
+        <div class="floating-label">
+          <select id="loginEmail" required>
+            <option value="" disabled selected></option>
+            <!-- Options will be populated dynamically -->
+          </select>
+          <label for="loginEmail">Username</label>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <div class="floating-label">
+          <input type="password" id="loginName" required placeholder=" " autocomplete="current-password">
+          <label for="loginName">Password</label>
+        </div>
+      </div>
+      
+      <button class="btn" id="loginButton">Login</button>
+      
+      <div id="fallbackLink" class="fallback-link">
+        <div class="fallback-text">Click below to open your dashboard:</div>
+        <a href="#" id="directLink" class="btn btn-secondary" target="_top">Click Me to Enter</a>
+      </div>
+      
+      <div class="retry-section" id="retrySection">
+        <p>Having trouble? Try again:</p>
+        <button class="retry-btn" id="retryButton">Check Server Status</button>
+      </div>
+    </div>
+    
+    <script>
+      let serverOnline = false;
+      let lastLoginAttempt = 0;
+      let redirectUrl = '';
+      let userRole = '';
+      const RETRY_DELAY = 3000; // 3 seconds
+      const BASE_URL = '<?= ScriptApp.getService().getUrl(); ?>';
+
+      // Unique ID per browser/device
+      function getDeviceId() {
+        try {
+          let id = localStorage.getItem('erp_device_id');
+          if (!id) {
+            id = (window.crypto && crypto.randomUUID)
+              ? crypto.randomUUID().replace(/-/g, '')
+              : Date.now().toString(36) + Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
+            localStorage.setItem('erp_device_id', id);
+          }
+          return id;
+        } catch (e) {
+          return '';
+        }
+      }
+      
+// Modified window load event
+window.addEventListener('load', function() {
+  checkServerStatus();
+  populateEmailDropdown(); // Load emails when page loads
+  tryResumeSession();      // Auto-login on the same device (refresh / plain exec link)
+});
+
+function tryResumeSession() {
+  let savedToken = '';
+  try { savedToken = localStorage.getItem('erp_session_token') || ''; } catch (e) {}
+  const dev = getDeviceId();
+  if (!savedToken || !dev) return;
+
+  google.script.run
+    .withSuccessHandler(function(res) {
+      if (!res || !res.success) {
+        try { localStorage.removeItem('erp_session_token'); } catch (e) {}
+        return;
+      }
+      const msg = document.getElementById('loginSuccess');
+      msg.textContent = 'Welcome back, ' + res.name + '! Opening dashboard...';
+      msg.style.display = 'block';
+
+      redirectUrl = buildRedirectUrl(res.role, res.token);
+      showEnterLink(redirectUrl);
+      goToApp(redirectUrl);
+    })
+    .withFailureHandler(function(err) {
+      console.log('Resume failed:', err);
+    })
+    .resumeSession(savedToken + '|' + dev);
+}
+      
+      function checkServerStatus() {
+        const statusElement = document.getElementById('serverStatus');
+        const statusIndicator = statusElement.querySelector('.status-indicator');
+        
+        // Show checking status
+        statusElement.className = 'server-status checking';
+        statusIndicator.className = 'status-indicator checking';
+        statusElement.innerHTML = '<span class="status-indicator checking"></span>Checking server status...';
+        statusElement.style.display = 'block';
+        
+        // Try a simple server call to check if it's responsive
+        google.script.run
+          .withSuccessHandler(function(result) {
+            // Server is responsive
+            serverOnline = true;
+            statusElement.className = 'server-status online';
+            statusIndicator.className = 'status-indicator online';
+            statusElement.innerHTML = '<span class="status-indicator online"></span>Server is online - Ready to login!';
+            
+            // Hide retry section and enable login
+            document.getElementById('retrySection').style.display = 'none';
+            document.getElementById('loginButton').disabled = false;
+            
+            // Auto-hide status after 3 seconds if server is online
+            setTimeout(function() {
+              statusElement.style.display = 'none';
+            }, 3000);
+          })
+          .withFailureHandler(function(error) {
+            // Server is not responsive
+            serverOnline = false;
+            statusElement.className = 'server-status offline';
+            statusIndicator.className = 'status-indicator offline';
+            statusElement.innerHTML = '<span class="status-indicator offline"></span>Server is down - Please try again later';
+            
+            // Show retry section and disable login
+            document.getElementById('retrySection').style.display = 'block';
+            document.getElementById('loginButton').disabled = true;
+            
+            console.log('Server status check failed:', error);
+          })
+          .getUserSession(); // Use a simple server function to test connectivity
+      }
+      
+      function buildRedirectUrl(role, token) {
+        const page = (role === 'Doer') ? 'doer' : 'index';
+        return BASE_URL + '?page=' + encodeURIComponent(page) + (token ? '&t=' + encodeURIComponent(token) : '');
+      }
+
+      function goToApp(url) {
+        // Do not read or write window.top.location — Google's iframe blocks that
+        // (cross-origin googleusercontent.com → script.google.com).
+        // Do not set window.location either — that loads /dev inside the iframe and 403s.
+        try {
+          window.open(url, '_top');
+        } catch (error) {
+          console.error('window.open _top failed:', error);
+        }
+
+        try {
+          const a = document.createElement('a');
+          a.href = url;
+          a.target = '_top';
+          a.rel = 'noopener';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        } catch (error) {
+          console.error('anchor redirect failed:', error);
+        }
+      }
+
+      function showEnterLink(url) {
+        const fallbackDiv = document.getElementById('fallbackLink');
+        const directLink = document.getElementById('directLink');
+        directLink.href = url;
+        directLink.target = '_top';
+        fallbackDiv.style.display = 'block';
+        fallbackDiv.scrollIntoView({ behavior: 'smooth' });
+      }
+      
+      // Enter key = Login
+      document.getElementById('loginName').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') document.getElementById('loginButton').click();
+      });
+
+      // Retry button handler
+      document.getElementById('retryButton').addEventListener('click', function() {
+        checkServerStatus();
+      });
+      
+      // Login button handler
+      document.getElementById('loginButton').addEventListener('click', function() {
+        const email = document.getElementById('loginEmail').value.trim();
+        const name = document.getElementById('loginName').value.trim();
+        const loginError = document.getElementById('loginError');
+        const loginSuccess = document.getElementById('loginSuccess');
+        const now = Date.now();
+        
+        // Clear previous messages and hide fallback
+        loginError.style.display = 'none';
+        loginSuccess.style.display = 'none';
+        document.getElementById('fallbackLink').style.display = 'none';
+        
+        // Basic validation
+        if (!email || !name) {
+          loginError.textContent = 'Please enter both email and name';
+          loginError.style.display = 'block';
+          return;
+        }
+        
+        // Prevent spam clicking
+        if (now - lastLoginAttempt < RETRY_DELAY) {
+          loginError.textContent = 'Please wait a moment before trying again';
+          loginError.style.display = 'block';
+          return;
+        }
+        
+        lastLoginAttempt = now;
+        
+        // Show loading state
+        const loginButton = document.getElementById('loginButton');
+        const originalText = loginButton.textContent;
+        loginButton.textContent = 'Logging in...';
+        loginButton.disabled = true;
+        
+        // Attempt login
+        google.script.run
+          .withSuccessHandler(function(result) {
+            if (result.success) {
+              // Update server status to online since login worked
+              serverOnline = true;
+              const statusElement = document.getElementById('serverStatus');
+              statusElement.className = 'server-status online';
+              statusElement.innerHTML = '<span class="status-indicator online"></span>Server is back online!';
+              statusElement.style.display = 'block';
+              
+              loginSuccess.textContent = 'Login successful! Opening dashboard...';
+              loginSuccess.style.display = 'block';
+              
+              // Save session on THIS device only (for refresh / reopen)
+              try { localStorage.setItem('erp_session_token', result.token); } catch (e) {}
+
+              // Store user info
+              userRole = result.role;
+              redirectUrl = buildRedirectUrl(result.role, result.token);
+
+              // Show the Enter link immediately. Auto top-navigation is often
+              // blocked after google.script.run, but a real click on target=_top works.
+              showEnterLink(redirectUrl);
+              goToApp(redirectUrl);
+            } else {
+              // Login failed but server responded
+              loginError.textContent = result.message || 'Invalid email or name. Please try again.';
+              loginError.style.display = 'block';
+              
+              // Reset button
+              loginButton.textContent = originalText;
+              loginButton.disabled = false;
+            }
+          })
+          .withFailureHandler(function(error) {
+            // Server error - update status
+            serverOnline = false;
+            const statusElement = document.getElementById('serverStatus');
+            statusElement.className = 'server-status offline';
+            statusElement.innerHTML = '<span class="status-indicator offline"></span>Server connection failed - Please try again';
+            statusElement.style.display = 'block';
+            
+            // Show specific error
+            if (error.toString().includes('ScriptError') || 
+                error.toString().includes('ReferenceError') || 
+                error.toString().includes('TypeError')) {
+              loginError.textContent = 'Server is temporarily unavailable. Please try again in a few moments.';
+            } else {
+              loginError.textContent = 'Connection error. Please check your internet and try again.';
+            }
+            
+            loginError.style.display = 'block';
+            document.getElementById('retrySection').style.display = 'block';
+            
+            // Reset button
+            loginButton.textContent = originalText;
+            loginButton.disabled = false;
+            
+            console.log('Login attempt failed:', error);
+          })
+          .authenticateUser(email, name, getDeviceId());
+      });
+      
+      // Let the browser follow target="_top" natively. Do not preventDefault —
+      // that is the only redirect Google still allows from this iframe.
+      
+      // Auto-retry mechanism for server status
+      setInterval(function() {
+        if (!serverOnline) {
+          checkServerStatus();
+        }
+      }, 30000); // Check every 30 seconds if server is offline
+
+
+
+
+// Function to populate email dropdown
+function populateEmailDropdown() {
+  const sel = document.getElementById('loginEmail');
+  sel.innerHTML = '<option value="" disabled selected>Loading users...</option>';
+  sel.disabled = true;
+
+  google.script.run
+    .withFailureHandler(function(err) {
+      sel.innerHTML = '<option value="" disabled selected>Could not load users</option>';
+      const le = document.getElementById('loginError');
+      le.textContent = 'Unable to load user list: ' + err;
+      le.style.display = 'block';
+    })
+    .withSuccessHandler(function(emails) {
+      const emailSelect = document.getElementById('loginEmail');
+      emailSelect.disabled = false;
+      (emails || []).sort(function(a, b) { return a.localeCompare(b); });
+
+      // Clear existing options except the first placeholder
+      emailSelect.innerHTML = '<option value="" disabled selected>Select username</option>';
+      
+      // Add email options
+      emails.forEach(function(email) {
+        if (email && email.trim()) { // Only add non-empty emails
+          const option = document.createElement('option');
+          option.value = email;
+          option.textContent = email;
+          emailSelect.appendChild(option);
+        }
+      });
+    })
+    .withFailureHandler(function(error) {
+      console.error('Failed to load emails:', error);
+      // Optionally show an error message to the user
+    })
+    .getUserEmails();
+}      
+    </script>
+  </body>
+</html>

@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body { 
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+.nav-menu {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 15px 20px;
+  margin: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  width: 100%;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0 20px;
+  gap: 20px;
+}
+
+
+/* Main Dashboard View - Full Width */
+#dashboard-view {
+  width: 100%;
+  max-width: 100%;
+  padding: 20px;
+  margin: 0;
+}
+
+#dashboard-view .container {
+  max-width: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#dashboard-view .bg-white {
+  width: 100%;
+  max-width: 100%;
+}
+
+
+/* Table container - Full Width */
+.overflow-x-auto {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.min-w-full {
+  width: 100%;
+  min-width: 100%;
+}
+
+/* Form View - Full Width */
+#form-view {
+  width: 100%;
+  max-width: 100%;
+  padding: 20px;
+  margin: 0;
+}
+
+#form-view .container {
+  max-width: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#form-view .max-w-7xl {
+  max-width: 100%;
+  width: 100%;
+}
+
+  .nav-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  
+  .nav-logo {
+    margin-right: 15px;
+  }
+  
+  .nav-logo img {
+    height: 45px;
+    width: auto;
+    display: block;
+  }
+  
+  .nav-link {
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    color: #666;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+  
+  .nav-link:hover {
+    color: #6C63FF;
+    background: rgba(108, 99, 255, 0.08);
+    border-color: rgba(108, 99, 255, 0.15);
+  }
+  
+  .nav-link.active {
+    background: linear-gradient(135deg, #6C63FF 0%, #5A54D4 100%);
+    color: white;
+    box-shadow: 0 2px 8px rgba(108, 99, 255, 0.25);
+  }
+
+  .user-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .user-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6C63FF 0%, #5A54D4 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 15px;
+    box-shadow: 0 2px 8px rgba(108, 99, 255, 0.3);
+    flex-shrink: 0;
+  }
+
+  .user-name {
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .user-role {
+    color: #888;
+    font-size: 12px;
+    display: block;
+    margin-top: 2px;
+  }
+
+  .logout-btn {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(238, 90, 82, 0.25);
+    white-space: nowrap;
+  }
+
+  .logout-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(238, 90, 82, 0.35);
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 1024px) {
+    .nav-left {
+      gap: 6px;
+    }
+    
+    .nav-link {
+      padding: 6px 10px;
+      font-size: 13px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .nav-menu {
+      padding: 12px 15px;
+    }
+    
+    .nav-container {
+      flex-wrap: wrap;
+    }
+
+    .nav-left {
+      order: 1;
+      width: 100%;
+      justify-content: flex-start;
+    }
+
+    .user-container {
+      order: 2;
+      width: 100%;
+      justify-content: space-between;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    
+    .nav-logo {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  }
+
+  .loader { 
+    border: 4px solid #f3f3f3; 
+    border-radius: 50%; 
+    border-top: 4px solid #3498db; 
+    width: 40px; 
+    height: 40px; 
+    animation: spin 2s linear infinite; 
+    position: fixed; 
+    top: 50%; 
+    left: 50%; 
+    margin-top: -20px; 
+    margin-left: -20px; 
+    z-index: 1000; 
+    display: none; 
+  }
+  
+  @keyframes spin { 
+    0% { transform: rotate(0deg); } 
+    100% { transform: rotate(360deg); } 
+  }
+  
+  .minutes-table input, 
+  .minutes-table textarea, 
+  .minutes-table select { 
+    width: 100%; 
+    font-size: 0.875rem; 
+    border-radius: 0.375rem; 
+    border: 1px solid #D1D5DB; 
+    padding: 0.5rem 0.75rem; 
+    min-height: 42px; 
+    box-sizing: border-box; 
+  }
+  
+  .minutes-table textarea { 
+    resize: vertical; 
+  }
+  
+  .minutes-table select { 
+    background-color: white; 
+  }
+</style>
+</head>
+<!-- Navigation Menu HTML -->
+    <div class="nav-menu">
+      <div class="nav-container">
+        <div class="nav-left">
+          <div class="nav-logo">
+            <img src="https://lh3.googleusercontent.com/a/ACg8ocITgr1Y3o12Jh3UFwdG3QA0XYrb0tN9fzm4WuheSoP61Ye4P0E=s432-c-no" alt="RJ Associates">
+          </div>
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=index" class="nav-link">Delegation</a>
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=doer" class="nav-link">Doer Dashboard</a>
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=scorecard" class="nav-link">Score Card</a>
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=checklist" class="nav-link">Checklist</a>
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=Dashboard" class="nav-link">Dashboard</a>
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=Setting" class="nav-link">Setting</a>
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=CompanyChart" class="nav-link">Company Chart</a>
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=MOM" class="nav-link active">MOM</a>      
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=Expense" class="nav-link">Expense</a>   
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=VendorMangement" class="nav-link">VendorMangement</a>   
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=MISScoring" class="nav-link">MIS Scoring</a> 
+        <a href="#" class="nav-link" onclick="openO2D(event)">O2D FMS</a>
+<script>
+  function openO2D(e) {
+    e.preventDefault();
+    var w = window.open('', '_blank');
+    if (w) w.document.write('<p style="font-family:sans-serif;padding:40px;color:#555">Opening O2D FMS...</p>');
+    google.script.run
+      .withSuccessHandler(function (url) {
+        if (w) w.location.href = url; else window.open(url, '_blank');
+      })
+      .withFailureHandler(function (err) {
+        if (w) w.close();
+        alert('O2D login failed: ' + (err && err.message ? err.message : err));
+      })
+      .getO2DSsoUrl(window.SESSION_TOKEN);
+  }
+</script>
+
+          <a href="https://script.google.com/a/macros/akashenterprise.in/s/AKfycbxBE6UOkg4kHkntskWCeraCe8l8sNW0tgQHevStpsfXZZhN97TNleAfZvrrRnfV7bpqhw/exec" class="nav-link" target="_blank">D2C FMS</a>          
+        </div>
+    
+    <!-- User info and logout container -->
+    <div class="user-container">
+      <div class="user-info">
+        <div class="user-avatar" id="userAvatar">U</div>
+        <span>
+          <span class="user-name" id="userName">User Name</span>
+          <span class="user-role" id="userRole">Admin</span>
+        </span>
+      </div>
+    <a href="<?= ScriptApp.getService().getUrl(); ?>?page=logout" class="logout-btn">Logout</a>
+<script>
+  (function () {
+    var t = '<?= getSessionTokenForPage() ?>';
+    var dev = '';
+    try { dev = localStorage.getItem('erp_device_id') || ''; } catch (e) {}
+    window.SESSION_TOKEN = t + '|' + dev;
+    if (!t) return;
+    document.querySelectorAll('a[href*="?page="]').forEach(function (a) {
+      var h = a.getAttribute('href');
+      if (!/[?&]t=/.test(h)) a.setAttribute('href', h + '&t=' + encodeURIComponent(t));
+    });
+  })();
+</script>
+    </div>
+  </div>
+</div>
+
+<body class="bg-gray-100 text-gray-800">
+
+  <div class="loader" id="loader"></div>
+
+<div id="dashboard-view" class="container mx-auto p-4 md:p-8">
+    <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-7xl mx-auto">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-semibold">Minutes of Meeting (MOM) Dashboard</h2>
+            <button id="create-mom-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md font-medium">Create New MOM</button>
+        </div>
+        
+        <!-- Add Filter Section -->
+        <div class="mb-4 flex items-center gap-4">
+            <label for="project-filter" class="text-sm font-medium text-gray-700">Filter by Project:</label>
+            <select id="project-filter" class="px-3 py-2 border border-gray-300 bg-white rounded-md" onchange="filterMOMsByProject()">
+                <option value="">All Projects</option>
+            </select>
+            <button onclick="clearProjectFilter()" class="text-sm text-indigo-600 hover:text-indigo-800 font-medium">Clear Filter</button>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">MOM No.</th>
+                    <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Project Name</th>
+                    <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                    <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Info Points</th>
+                    <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pending Actions</th>
+                    <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                </tr>
+                </thead>
+                <tbody id="momTableBody" class="bg-white divide-y divide-gray-200"></tbody>
+            </table>
+        </div>
+    </div>
+  </div>
+
+  <!-- Form View (Initially Hidden) -->
+  <div id="form-view" class="hidden container mx-auto p-4 md:p-8">
+    <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-7xl mx-auto">
+        <div class="flex justify-between items-center mb-4 border-b pb-2">
+            <h2 id="form-title" class="text-2xl font-semibold">Create New MOM</h2>
+            <button id="back-to-dashboard-btn" class="text-indigo-600 hover:text-indigo-800 font-medium">← Back to Dashboard</button>
+        </div>
+        <form id="momForm" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+            <input type="hidden" id="mom-id-input">
+            <div class="md:col-span-2"> <label for="project" class="block text-sm font-medium text-gray-700 mb-1">Project</label> <select id="project" name="project" required class="w-full px-3 py-2 border border-gray-300 bg-white rounded-md"> <? if (typeof projects !== 'undefined' && projects.length > 0) { ?> <? for (let i = 0; i < projects.length; i++) { ?> <option value="<?= projects[i] ?>"><?= projects[i] ?></option> <? } ?> <? } else { ?> <option value="" disabled>No projects found.</option> <? } ?> </select> </div>
+            <div> <label for="date" class="block text-sm font-medium text-gray-700 mb-1">Date</label> <input type="date" id="date" name="date" required class="w-full px-3 py-2 border border-gray-300 rounded-md"> </div>
+            <div> <label for="time" class="block text-sm font-medium text-gray-700 mb-1">Time</label> <input type="time" id="time" name="time" required class="w-full px-3 py-2 border border-gray-300 rounded-md"> </div>
+            <div class="md:col-span-2"> <label for="location" class="block text-sm font-medium text-gray-700 mb-1">Location / Meeting Link</label> <input type="text" id="location" name="location" required class="w-full px-3 py-2 border border-gray-300 rounded-md"> </div>
+            <div class="md:col-span-2 border-t pt-4"> <h3 class="text-lg font-medium text-gray-800 mb-4">Attendees</h3> <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4"> <div class="space-y-2">
+  <label class="block text-sm font-medium text-gray-700">RA Team</label>
+  <select id="ra-team-select" class="w-full px-3 py-2 border border-gray-300 bg-white rounded-md" onchange="addRATeamMember()">
+    <option value="">Select RA Team Member</option>
+    <? if (typeof raTeamMembers !== 'undefined' && raTeamMembers.length > 0) { ?>
+      <? for (let i = 0; i < raTeamMembers.length; i++) { ?>
+        <option value="<?= raTeamMembers[i] ?>"><?= raTeamMembers[i] ?></option>
+      <? } ?>
+    <? } else { ?>
+      <option value="" disabled>No RA team members found.</option>
+    <? } ?>
+  </select>
+  <div id="attendees-ra-container" class="space-y-2 mt-2"></div>
+</div> <div class="space-y-2"><label class="block text-sm font-medium text-gray-700">Client Team</label><div id="attendees-client-container" class="space-y-2"></div><button type="button" onclick="addAttendeeRow('attendees-client-container')" class="mt-1 text-sm text-indigo-600 hover:text-indigo-800 font-medium">+ Add Member</button></div> <div class="space-y-2"><label class="block text-sm font-medium text-gray-700">Vendor Team</label><div id="attendees-vendor-container" class="space-y-2"></div><button type="button" onclick="addAttendeeRow('attendees-vendor-container')" class="mt-1 text-sm text-indigo-600 hover:text-indigo-800 font-medium">+ Add Member</button></div> <div class="space-y-2"><label class="block text-sm font-medium text-gray-700">Other</label><div id="attendees-other-container" class="space-y-2"></div><button type="button" onclick="addAttendeeRow('attendees-other-container')" class="mt-1 text-sm text-indigo-600 hover:text-indigo-800 font-medium">+ Add Member</button></div> </div> </div>
+            <div class="md:col-span-2 border-t pt-4"> <h3 class="text-lg font-medium text-gray-800 mb-4">Meeting Minutes</h3> <div class="overflow-x-auto"><table class="min-w-full text-sm minutes-table"><thead class="bg-gray-50"><tr><th class="px-2 py-2 text-left font-medium text-gray-600">S.No.</th><th class="px-2 py-2 text-left font-medium text-gray-600 w-1/4">Minutes Discussed</th><th class="px-2 py-2 text-left font-medium text-gray-600">Action By</th><th class="px-2 py-2 text-left font-medium text-gray-600">Planned Start</th><th class="px-2 py-2 text-left font-medium text-gray-600">Planned Completion</th><th class="px-2 py-2 text-left font-medium text-gray-600">Actual Completion</th><th class="px-2 py-2 text-left font-medium text-gray-600">Delayed (Days)</th><th class="px-2 py-2 text-left font-medium text-gray-600 w-1/4">Remarks</th><th class="px-2 py-2 text-left font-medium text-gray-600"></th></tr></thead><tbody id="minutes-table-body"></tbody></table></div> <button type="button" onclick="addMinuteRow()" class="mt-2 text-sm text-indigo-600 hover:text-indigo-800 font-medium">+ Add Discussion Point</button> </div>
+            <div id="form-actions" class="md:col-span-2 text-right pt-4 border-t mt-4"> <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">Submit MOM</button> </div>
+        </form>
+    </div>
+  </div>
+
+  <script>
+    let allMomsData = [];
+    const ATTENDEE_CONTAINERS = ['attendees-ra-container', 'attendees-client-container', 'attendees-vendor-container', 'attendees-other-container'];
+    function showLoader() { document.getElementById('loader').style.display = 'block'; }
+    function hideLoader() { document.getElementById('loader').style.display = 'none'; }
+    function onFailure(error) { 
+        hideLoader(); 
+        console.error('Error occurred:', error);
+        alert(`Error: ${error.message || error}`); 
+    }
+    function addAttendeeRow(containerId, name = '') { 
+        const container = document.getElementById(containerId); 
+        const newRow = document.createElement('div'); 
+        newRow.className = 'flex items-center space-x-2'; 
+        const input = document.createElement('input'); 
+        input.type = 'text'; 
+        input.value = name || ''; // Ensure name is never null
+        input.className = 'w-full px-3 py-1.5 border border-gray-300 rounded-md'; 
+        
+        // Add event listener to update Action By dropdowns when attendee name changes
+        input.addEventListener('input', function() {
+            // Small delay to allow for typing
+            setTimeout(() => {
+                updateAllActionByDropdowns();
+            }, 300);
+        });
+        
+        newRow.appendChild(input); 
+        if (container.children.length > 0) { 
+            const removeButton = document.createElement('button'); 
+            removeButton.type = 'button'; 
+            removeButton.innerHTML = '&times;'; 
+            removeButton.className = 'flex-shrink-0 px-2.5 py-1 text-xl text-red-500 hover:bg-red-100 rounded-full'; 
+            removeButton.onclick = () => {
+                container.removeChild(newRow);
+                // Update dropdowns after removing an attendee
+                setTimeout(() => {
+                    updateAllActionByDropdowns();
+                }, 100);
+            }; 
+            newRow.appendChild(removeButton); 
+        } else { 
+            newRow.appendChild(document.createElement('div')).className = 'w-9 h-1'; 
+        } 
+        container.appendChild(newRow); 
+    }
+    function getAllAttendees() {
+        const attendees = [];
+        
+        // Get attendees from all containers
+        ATTENDEE_CONTAINERS.forEach(containerId => {
+            const container = document.getElementById(containerId);
+            const inputs = container.querySelectorAll('input[type="text"]');
+            inputs.forEach(input => {
+                const name = input.value.trim();
+                if (name) {
+                    attendees.push(name);
+                }
+            });
+        });
+        
+        return attendees;
+    }
+    
+    function createActionByDropdown(selectedValue = '') {
+        const attendees = getAllAttendees();
+        let options = '<option value="">Select Action By</option>';
+        
+        attendees.forEach(attendee => {
+            const selected = attendee === selectedValue ? 'selected' : '';
+            options += `<option value="${attendee.replace(/"/g, '&quot;')}" ${selected}>${attendee}</option>`;
+        });
+        
+        return `<select class="action-by">${options}</select>`;
+    }
+    
+    function updateAllActionByDropdowns() {
+        // Update all existing action-by dropdowns when attendees change
+        document.querySelectorAll('.action-by').forEach(dropdown => {
+            const currentValue = dropdown.value;
+            const attendees = getAllAttendees();
+            
+            // Clear existing options
+            dropdown.innerHTML = '<option value="">Select Action By</option>';
+            
+            // Add new options
+            attendees.forEach(attendee => {
+                const option = document.createElement('option');
+                option.value = attendee;
+                option.textContent = attendee;
+                if (attendee === currentValue) {
+                    option.selected = true;
+                }
+                dropdown.appendChild(option);
+            });
+        });
+    }
+    
+    function addMinuteRow(item = {}) { 
+        const tbody = document.getElementById('minutes-table-body'); 
+        const rowCount = tbody.rows.length + 1; 
+        const newRow = tbody.insertRow(); 
+        newRow.className = 'minute-row'; 
+        
+        // Safely get values with null checks
+        const discussed = (item.discussed || '').replace(/\"/g, '&quot;');
+        const actionBy = (item.actionBy || '').replace(/\"/g, '&quot;');
+        const plannedStart = item.plannedStart || '';
+        const plannedCompletion = item.plannedCompletion || '';
+        const actualCompletion = item.actualCompletion || '';
+        const remarks = (item.remarks || '').replace(/\"/g, '&quot;');
+        
+        newRow.innerHTML = `
+            <td class="p-1 align-top text-center">${rowCount}</td>
+            <td class="p-1 align-top"><textarea class="minutes-discussed">${discussed}</textarea></td>
+            <td class="p-1 align-top">${createActionByDropdown(actionBy)}</td>
+            <td class="p-1 align-top"><input type="date" class="planned-start" value="${plannedStart}"></td>
+            <td class="p-1 align-top"><input type="date" class="planned-completion" value="${plannedCompletion}" onchange="calculateDelay(this.closest('tr'))"></td>
+            <td class="p-1 align-top"><input type="date" class="actual-completion" value="${actualCompletion}" onchange="calculateDelay(this.closest('tr'))"></td>
+            <td class="p-1 align-top text-center delay-days">---</td>
+            <td class="p-1 align-top"><textarea class="remarks">${remarks}</textarea></td>
+            <td class="p-1 align-top text-center">${rowCount > 1 ? '<button type="button" onclick="removeMinuteRow(this)" class="text-red-500 hover:text-red-700">&times;</button>' : ''}</td>
+        `; 
+        calculateDelay(newRow); 
+    }
+    function removeMinuteRow(button) { button.closest('tr').remove(); document.querySelectorAll('#minutes-table-body tr').forEach((row, index) => { row.cells[0].textContent = index + 1; }); }
+    function calculateDelay(row) { const plannedCompletion = row.querySelector('.planned-completion').value; const actualCompletion = row.querySelector('.actual-completion').value; const delayCell = row.querySelector('.delay-days'); if (plannedCompletion && actualCompletion) { const planDate = new Date(plannedCompletion); const actualDate = new Date(actualCompletion); const diffTime = actualDate - planDate; const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); delayCell.textContent = diffDays > 0 ? diffDays : 0; } else { delayCell.textContent = '---'; } }
+    function getMinutesData() { 
+        const data = []; 
+        document.querySelectorAll('#minutes-table-body tr').forEach(row => { 
+            const rowData = { 
+                sno: row.cells[0].textContent, 
+                discussed: row.querySelector('.minutes-discussed').value, 
+                actionBy: row.querySelector('.action-by').value, 
+                plannedStart: row.querySelector('.planned-start').value, 
+                plannedCompletion: row.querySelector('.planned-completion').value, 
+                actualCompletion: row.querySelector('.actual-completion').value, 
+                delayed: row.querySelector('.delay-days').textContent, 
+                remarks: row.querySelector('.remarks').value, 
+            }; 
+            if (Object.values(rowData).some(val => val && val !== '---')) data.push(rowData); 
+        }); 
+        return JSON.stringify(data); 
+    }
+    function getAttendeesFromContainer(containerId) { return Array.from(document.getElementById(containerId).querySelectorAll('input[type="text"]')).map(input => input.value.trim()).filter(Boolean).join('\n'); }
+    
+    function viewPdf(momId) {
+        showLoader();
+        google.script.run
+            .withSuccessHandler((pdfUrl) => {
+                hideLoader();
+                if (pdfUrl) {
+                    window.open(pdfUrl, '_blank');
+                } else {
+                    alert('Error generating PDF');
+                }
+            })
+            .withFailureHandler((error) => {
+                hideLoader();
+                console.error('PDF generation error:', error);
+                alert('Error generating PDF: ' + (error.message || error));
+            })
+            .generatePdf(momId);
+    }
+    
+    function showDashboard() {
+        document.getElementById('dashboard-view').classList.remove('hidden');
+        document.getElementById('form-view').classList.add('hidden');
+        showLoader();
+        google.script.run.withSuccessHandler(displayMOMs).withFailureHandler(onFailure).getMOMs();
+    }
+
+    function showForm(momId = null) {
+        document.getElementById('dashboard-view').classList.add('hidden');
+        document.getElementById('form-view').classList.remove('hidden');
+        if(momId) {
+            populateFormForUpdate(momId);
+        } else {
+            initializeBlankForm();
+        }
+    }
+    
+function initializeBlankForm() {
+  document.getElementById('form-title').textContent = 'Create New MOM';
+  document.getElementById('momForm').reset();
+  document.getElementById('mom-id-input').value = '';
+  ATTENDEE_CONTAINERS.forEach(id => document.getElementById(id).innerHTML = '');
+  document.getElementById('minutes-table-body').innerHTML = '';
+  
+  // Add blank rows only for Client, Vendor, and Other (NOT RA Team)
+  addAttendeeRow('attendees-client-container');
+  addAttendeeRow('attendees-vendor-container');
+  addAttendeeRow('attendees-other-container');
+  // Don't add blank row for RA Team since it uses dropdown
+  
+  addMinuteRow();
+}
+
+function populateFormForUpdate(momId) {
+  const mom = allMomsData.find(m => m.momId === momId);
+  if (!mom) { alert('Could not find MOM to update.'); return; }
+  document.getElementById('form-title').textContent = `Update MOM (${mom.momId})`;
+  document.getElementById('mom-id-input').value = mom.momId || '';
+  document.getElementById('project').value = mom.project || '';
+  
+  // Handle date parsing more robustly
+  if (mom.date) {
+    try {
+      const dateParts = mom.date.split('/');
+      if (dateParts.length === 3) {
+        const [month, day, year] = dateParts;
+        document.getElementById('date').value = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+      } else {
+        const parsedDate = new Date(mom.date);
+        if (!isNaN(parsedDate.getTime())) {
+          const year = parsedDate.getFullYear();
+          const month = String(parsedDate.getMonth() + 1).padStart(2, '0');
+          const day = String(parsedDate.getDate()).padStart(2, '0');
+          document.getElementById('date').value = `${year}-${month}-${day}`;
+        }
+      }
+    } catch (e) {
+      console.error('Error parsing date:', mom.date, e);
+    }
+  }
+  
+  document.getElementById('time').value = mom.time || '';
+  document.getElementById('location').value = mom.location || '';
+  ATTENDEE_CONTAINERS.forEach(id => document.getElementById(id).innerHTML = '');
+  (mom.attendeesRA || '').split('\n').filter(Boolean).forEach(name => addAttendeeRow('attendees-ra-container', name));
+  (mom.attendeesClient || '').split('\n').filter(Boolean).forEach(name => addAttendeeRow('attendees-client-container', name));
+  (mom.attendeesVendor || '').split('\n').filter(Boolean).forEach(name => addAttendeeRow('attendees-vendor-container', name));
+  (mom.attendeesOther || '').split('\n').filter(Boolean).forEach(name => addAttendeeRow('attendees-other-container', name));
+  
+  // Add blank rows only if containers are empty for Client, Vendor, and Other (NOT RA Team)
+  if(document.getElementById('attendees-client-container').children.length === 0) 
+    addAttendeeRow('attendees-client-container');
+  if(document.getElementById('attendees-vendor-container').children.length === 0) 
+    addAttendeeRow('attendees-vendor-container');
+  if(document.getElementById('attendees-other-container').children.length === 0) 
+    addAttendeeRow('attendees-other-container');
+  // Don't add blank row for RA Team
+  
+  const minutesBody = document.getElementById('minutes-table-body');
+  minutesBody.innerHTML = '';
+  
+  try {
+    const minutes = JSON.parse(mom.minutes || '[]');
+    if (minutes.length > 0) { 
+      minutes.forEach(item => addMinuteRow(item)); 
+    } else { 
+      addMinuteRow(); 
+    }
+  } catch (e) {
+    console.error('Error parsing minutes JSON:', mom.minutes, e);
+    addMinuteRow();
+  }
+}
+
+function displayMOMs(data) {
+    // Add null check and ensure data is an array
+    if (!data || !Array.isArray(data)) {
+        console.error('Invalid data received:', data);
+        data = [];
+    }
+    
+    // Only update allMomsData if we're displaying the full dataset
+    if (data.length === 0 || data === allMomsData || !document.getElementById('project-filter').value) {
+        allMomsData = data;
+        populateProjectFilter(); // Populate filter dropdown
+    }
+    
+    const tableBody = document.getElementById("momTableBody");
+    tableBody.innerHTML = "";
+    
+    if (data.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="6" class="text-center px-4 py-4">No records found.</td></tr>`;
+    } else {
+        data.forEach(row => {
+            try {
+                const tr = document.createElement("tr");
+                let minutes = [];
+                let infoPoints = 0;
+                let pendingActions = 0;
+                
+                // Safely parse minutes JSON
+                try {
+                    minutes = JSON.parse(row.minutes || '[]');
+                    infoPoints = minutes.length;
+                    pendingActions = minutes.filter(m => m.actionBy && !m.actualCompletion).length;
+                } catch (jsonError) {
+                    console.warn('Error parsing minutes JSON for row:', row.momId, jsonError);
+                    infoPoints = 0;
+                    pendingActions = 0;
+                }
+                
+                tr.innerHTML = `
+                    <td class="px-3 py-4 align-top text-sm text-gray-700">${row.momId || 'N/A'}</td>
+                    <td class="px-3 py-4 align-top text-sm font-medium text-gray-900">${row.project || 'N/A'}</td>
+                    <td class="px-3 py-4 align-top text-sm text-gray-700">${row.date || 'N/A'}</td>
+                    <td class="px-3 py-4 align-top text-sm text-center text-gray-700">${infoPoints}</td>
+                    <td class="px-3 py-4 align-top text-sm text-center font-semibold ${pendingActions > 0 ? 'text-red-600' : 'text-green-600'}">${pendingActions}</td>
+                    <td class="px-3 py-4 align-top text-sm text-center space-x-2">
+                        <button onclick="showForm('${row.momId || ''}')" class="text-green-600 hover:text-green-800">Update</button>
+                        <button onclick="viewPdf('${row.momId || ''}')" class="text-blue-600 hover:text-blue-800">View</button>
+                    </td>
+                `;
+                tableBody.appendChild(tr);
+            } catch (error) {
+                console.error('Error processing row:', row, error);
+            }
+        });
+    }
+    hideLoader();
+}
+    
+    // Combined initialization - this replaces all three window.onload functions
+    window.onload = function() {
+      console.log('Page loaded, initializing...');
+      
+      // 1. Initialize user data
+      try {
+        const userData = <?!= includeUserData(); ?>;
+        console.log('User data:', userData);
+        
+        if (userData) {
+          const userNameElement = document.getElementById('userName');
+          const userRoleElement = document.getElementById('userRole');
+          const userAvatarElement = document.getElementById('userAvatar');
+          
+          if (userNameElement && userRoleElement && userAvatarElement) {
+            userNameElement.textContent = userData.name;
+            userRoleElement.textContent = userData.role;
+            userAvatarElement.textContent = userData.name.charAt(0).toUpperCase();
+          }
+        } else {
+          console.warn('No user data found, redirecting to logout');
+      document.body.innerHTML = '<div style="padding:60px;text-align:center;font-family:Poppins,sans-serif;">Session expired. <a href="<?= ScriptApp.getService().getUrl(); ?>" target="_top">Login again</a></div>';
+          return;
+        }
+      } catch (error) {
+        console.error('Error loading user data:', error);
+      }
+      
+      // 2. Set up event listeners
+      document.getElementById('create-mom-btn').addEventListener('click', () => {
+        console.log('Create MOM button clicked');
+        showForm();
+      });
+      
+      document.getElementById('back-to-dashboard-btn').addEventListener('click', () => {
+        console.log('Back to dashboard clicked');
+        showDashboard();
+      });
+      
+      // 3. Set up form submission
+      document.getElementById("momForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+        console.log('Form submitted');
+        showLoader();
+        updateAllActionByDropdowns();
+        
+        const currentMomId = document.getElementById('mom-id-input').value || null;
+        const formData = {
+          project: this.project.value,
+          date: this.date.value,
+          time: this.time.value,
+          location: this.location.value,
+          attendeesRA: getAttendeesFromContainer('attendees-ra-container'),
+          attendeesClient: getAttendeesFromContainer('attendees-client-container'),
+          attendeesVendor: getAttendeesFromContainer('attendees-vendor-container'),
+          attendeesOther: getAttendeesFromContainer('attendees-other-container'),
+          minutes: getMinutesData(),
+        };
+        
+        console.log('Submitting form data:', formData);
+        
+        google.script.run
+          .withSuccessHandler((response) => {
+            console.log('Save successful:', response);
+            alert(response);
+            showDashboard();
+          })
+          .withFailureHandler((error) => {
+            console.error('Save failed:', error);
+            onFailure(error);
+          })
+          .saveOrUpdateMOM(formData, currentMomId);
+      });
+      
+      // 4. Load initial dashboard data
+      console.log('Loading dashboard data...');
+      showDashboard();
+    };
+
+
+
+    // Make sure user data is loaded and displayed
+  document.addEventListener('DOMContentLoaded', function() {
+    // User session is already included in the page by includeUserData()
+    const userData = <?!= includeUserData(); ?>;
+    
+    // Check if user data exists and user elements exist
+    if (userData) {
+      // Get the user info elements
+      const userNameElement = document.getElementById('userName');
+      const userRoleElement = document.getElementById('userRole');
+      const userAvatarElement = document.getElementById('userAvatar');
+      
+      // Update user info if elements exist
+      if (userNameElement) userNameElement.textContent = userData.name;
+      if (userRoleElement) userRoleElement.textContent = userData.role;
+      if (userAvatarElement) userAvatarElement.textContent = userData.name.charAt(0).toUpperCase();
+    }
+  }); 
+
+
+function addRATeamMember() {
+  const select = document.getElementById('ra-team-select');
+  const selectedName = select.value;
+  
+  if (selectedName) {
+    addAttendeeRow('attendees-ra-container', selectedName);
+    select.value = ''; // Reset dropdown
+    
+    // Update Action By dropdowns
+    setTimeout(() => {
+      updateAllActionByDropdowns();
+    }, 100);
+  }
+} 
+
+
+// Populate project filter dropdown
+function populateProjectFilter() {
+    const filterSelect = document.getElementById('project-filter');
+    const uniqueProjects = [...new Set(allMomsData.map(mom => mom.project))].filter(Boolean).sort();
+    
+    // Clear existing options except "All Projects"
+    filterSelect.innerHTML = '<option value="">All Projects</option>';
+    
+    // Add unique projects to filter
+    uniqueProjects.forEach(project => {
+        const option = document.createElement('option');
+        option.value = project;
+        option.textContent = project;
+        filterSelect.appendChild(option);
+    });
+}
+
+// Filter MOMs by selected project
+function filterMOMsByProject() {
+    const selectedProject = document.getElementById('project-filter').value;
+    
+    if (selectedProject === '') {
+        // Show all MOMs
+        displayMOMs(allMomsData);
+    } else {
+        // Filter and display only matching MOMs
+        const filteredData = allMomsData.filter(mom => mom.project === selectedProject);
+        displayMOMs(filteredData);
+    }
+}
+
+// Clear project filter
+function clearProjectFilter() {
+    document.getElementById('project-filter').value = '';
+    displayMOMs(allMomsData);
+}
+  </script>
+</body>
+</html>

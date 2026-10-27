@@ -1,0 +1,2033 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+  
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      color: #333;
+    }
+    
+    .container {
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .nav-menu {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: nowrap;
+      width: 100%;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    .nav-logo img {
+      height: 40px;
+      max-height: 40px;
+      object-fit: contain;
+    }
+    
+    .nav-link {
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      color: #666;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+      font-size: 13px;
+      margin-right: 4px;
+    }
+    
+    .nav-link:hover {
+      color: #6C63FF;
+      background: rgba(108, 99, 255, 0.1);
+      border-color: rgba(108, 99, 255, 0.2);
+    }
+    
+    .nav-link.active {
+      background: linear-gradient(135deg, #6C63FF 0%, #5A54D4 100%);
+      color: white;
+      box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3);
+    }
+    
+    .user-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .user-avatar {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #6C63FF 0%, #5A54D4 100%);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 14px;
+      box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3);
+    }
+    
+    .user-name {
+      font-weight: 600;
+      color: #333;
+      font-size: 13px;
+    }
+    
+    .user-role {
+      color: #888;
+      font-size: 11px;
+      display: block;
+      margin-top: 1px;
+    }
+    
+    .logout-btn {
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(238, 90, 82, 0.3);
+    }
+    
+    .logout-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(238, 90, 82, 0.4);
+    }
+
+
+
+/* Ensure table containers have lower z-index */
+.table-container {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  margin-top: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+    .table-wrapper {
+      overflow-x: auto;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+    }
+    
+    th, td {
+      padding: 15px 12px;
+      text-align: left;
+      border-bottom: 1px solid #e9ecef;
+      font-size: 15px;
+    }
+    
+    th {
+      background: #030303;
+      color: #ffffff;
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    
+    tr:hover {
+      background-color: rgba(108, 99, 255, 0.05);
+    }
+    
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+      font-size: 16px;
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .nav-container {
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .nav-left {
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .nav-logo {
+        margin-right: 5px;
+      }
+
+      .nav-logo img {
+        height: 35px;
+        max-height: 35px;
+      }
+      
+      .user-container {
+        width: 100%;
+        justify-content: flex-end;
+        margin-top: 10px;
+      }
+
+      .filter-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .filter-group {
+        width: 100%;
+        min-width: auto;
+      }
+      
+      .filter-actions {
+        width: 100%;
+        justify-content: center;
+        margin-top: 15px;
+      }
+
+      .summary-stats {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .stat-card {
+        padding: 12px 15px;
+        min-height: 120px;
+      }
+
+      .stat-value {
+        font-size: 28px;
+      }
+
+      .formula-text {
+        font-size: 11px;
+      }
+
+      th, td {
+        padding: 10px 8px;
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 15px;
+      }
+
+      .nav-left {
+        width: 100%;
+        justify-content: flex-start;
+        margin-bottom: 10px;
+      }
+
+      .nav-logo img {
+        height: 30px;
+        max-height: 30px;
+      }
+
+      .filter-section, .table-container {
+        border-radius: 12px;
+      }
+
+      .nav-menu {
+        border-radius: 12px;
+      }
+
+      .stat-card {
+        min-height: 110px;
+      }
+    }
+
+
+  .status-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .status-pending-within-limit {
+    background-color: #e3f2fd;
+    color: #1976d2;
+    border: 1px solid #bbdefb;
+  }
+
+  .status-pending-overdue {
+    background-color: #fff3e0;
+    color: #f57c00;
+    border: 1px solid #ffcc80;
+  }
+
+  .status-completed-on-time {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #c8e6c9;
+  }
+
+  .status-completed-with-delay {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ffcdd2;
+  }
+
+  .status-approval-waiting {
+    background-color: #f3e5f5;
+    color: #7b1fa2;
+    border: 1px solid #ce93d8;
+  }
+
+  .status-shifted {
+    background-color: #fafafa;
+    color: #616161;
+    border: 1px solid #e0e0e0;
+  }
+
+  .status-other {
+    background-color: #f5f5f5;
+    color: #424242;
+    border: 1px solid #bdbdbd;
+  }
+  
+
+  /* Summary Table Styles */
+  #summaryTable th {
+    background: #030303;
+    color: #ffffff;
+    font-weight: 500;
+    text-align: center;
+    padding: 12px 8px;
+    font-size: 15px;
+  }
+  #summaryTable td {
+    text-align: center;
+    padding: 10px 8px;
+    font-size: 17px;
+  }
+
+  #summaryTable .highlight-count {
+    font-weight: bold;
+    background-color: rgba(108, 99, 255, 0.1);
+    color: #6C63FF;
+  }
+  #summaryTable .percent-high {
+    color: #2e7d32;
+    font-weight: bold;
+  }
+  #summaryTable .percent-medium {
+    color: #f57c00;
+    font-weight: bold;
+  }
+  #summaryTable .percent-low {
+    color: #c62828;
+    font-weight: bold;
+  }
+  #toggleBreakdown {
+    background: linear-gradient(135deg, #6C63FF 0%, #5A54D4 100%);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3);
+  }
+  #toggleBreakdown:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(108, 99, 255, 0.4);
+  }
+
+  /* Style for h3 headings */
+  h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin: 20px 0 10px 0;
+    padding: 10px 15px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 8px;
+    border-left: 4px solid #6C63FF;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+
+.filter-container {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 25px;
+  margin-bottom: 20px;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  z-index: 100;
+}
+
+.filter-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  align-items: start;
+  position: relative;
+  z-index: 100;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 50;
+}
+
+.filter-group > label:first-child {
+  display: block;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.filter-dropdown {
+  position: relative;
+  width: 100%;
+  z-index: 50;
+}
+
+.filter-search-input {
+  width: 100%;
+  padding: 10px 35px 10px 14px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 13px;
+  background: white;
+  transition: all 0.3s ease;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  position: relative;
+}
+
+.filter-search-input::after {
+  content: '▼';
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 10px;
+  color: #6c757d;
+}
+
+.filter-dropdown::after {
+  content: '▼';
+  position: absolute;
+  right: 14px;
+  top: 12px;
+  pointer-events: none;
+  font-size: 10px;
+  color: #6c757d;
+  transition: transform 0.3s ease;
+}
+
+.filter-dropdown.active::after {
+  transform: rotate(180deg);
+}
+
+.filter-search-input:focus {
+  outline: none;
+  border-color: #6C63FF;
+  box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.1);
+}
+
+.filter-search-input::placeholder {
+  color: #adb5bd;
+}
+
+.checkbox-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 5px;
+  z-index: 9999;
+  background: white;
+  border: 2px solid #6C63FF;
+  border-radius: 10px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  max-height: 250px;
+  overflow-y: auto;
+  padding: 12px;
+}
+
+.checkbox-dropdown.active {
+  display: block;
+  z-index: 9999;
+}
+
+/* Custom scrollbar for checkbox group */
+.checkbox-dropdown::-webkit-scrollbar {
+  width: 8px;
+}
+
+.checkbox-dropdown::-webkit-scrollbar-track {
+  background: #f1f3f5;
+  border-radius: 10px;
+}
+
+.checkbox-dropdown::-webkit-scrollbar-thumb {
+  background: #6C63FF;
+  border-radius: 10px;
+}
+
+.checkbox-dropdown::-webkit-scrollbar-thumb:hover {
+  background: #5A54D4;
+}
+
+.checkbox-dropdown label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  font-weight: normal;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 8px 10px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.checkbox-dropdown label:hover {
+  background-color: rgba(108, 99, 255, 0.08);
+}
+
+.checkbox-dropdown label:last-child {
+  margin-bottom: 0;
+}
+
+.checkbox-dropdown input[type="checkbox"] {
+  margin-right: 10px;
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  accent-color: #6C63FF;
+  flex-shrink: 0;
+}
+
+.checkbox-dropdown label.hidden {
+  display: none;
+}
+
+.filter-actions {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  grid-column: 1 / -1;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.btn {
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  font-family: 'Poppins', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #6C63FF 0%, #5A54D4 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(108, 99, 255, 0.4);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(108, 99, 255, 0.5);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(108, 123, 135, 0.4);
+}
+
+.btn-secondary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(108, 123, 135, 0.5);
+}
+
+.btn-secondary:active {
+  transform: translateY(0);
+}
+
+/* Responsive design for filters */
+@media (max-width: 768px) {
+  .filter-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .filter-container {
+    padding: 20px 15px;
+  }
+  
+  .checkbox-dropdown {
+    max-height: 200px;
+  }
+  
+  .filter-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .filter-container {
+    padding: 15px;
+    border-radius: 12px;
+  }
+  
+  .filter-group > label:first-child {
+    font-size: 13px;
+  }
+  
+  .filter-search-input {
+    padding: 8px 30px 8px 12px;
+    font-size: 12px;
+  }
+  
+  .checkbox-dropdown label {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+  
+  .btn {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+}
+
+
+.date-inputs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.date-input {
+  flex: 1;
+  min-width: 140px;
+  padding: 10px 14px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 13px;
+  background: white;
+  transition: all 0.3s ease;
+  font-family: 'Poppins', sans-serif;
+}
+
+.date-input:focus {
+  border-color: #6C63FF;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+}
+
+.date-inputs span {
+  font-weight: 500;
+  color: #666;
+}
+
+    /* ===== UI polish ===== */
+    .nav-menu { position: sticky; top: 10px; z-index: 900; }
+    .nav-container { flex-wrap: wrap; gap: 10px; }
+    .nav-left { flex-wrap: wrap; gap: 6px; }
+    .nav-link { white-space: nowrap; }
+    td { vertical-align: middle; }
+    .table-wrapper::-webkit-scrollbar { width: 8px; height: 8px; }
+    .table-wrapper::-webkit-scrollbar-thumb { background: #c5c2ff; border-radius: 8px; }
+    button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible {
+      outline: 2px solid #6C63FF; outline-offset: 2px;
+    }
+    @media (max-width: 768px) { .nav-menu { position: static; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Navigation Menu -->
+    <div class="nav-menu">
+      <div class="nav-container">
+        <div class="nav-left">
+          <div class="nav-logo">
+          </div>
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=index" class="nav-link">Delegation</a>
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=doer" class="nav-link">Doer Dashboard</a>
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=checklist" class="nav-link">Checklist</a>
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=Dashboard" class="nav-link active">Dashboard</a>
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=Help" class="nav-link">Help (<span id="needHelpCount">0</span>)</a>
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=MISScoring" class="nav-link">MIS Scoring</a>
+          <a href="#" class="nav-link" onclick="openO2D(event)">O2D FMS</a>
+          <script>
+            function openO2D(e) {
+              e.preventDefault();
+              // Open tab immediately (keeps the click "user gesture" so popup isn't blocked)
+              var w = window.open('', '_blank');
+              if (w) w.document.write('<p style="font-family:sans-serif;padding:40px;color:#555">Opening O2D FMS...</p>');
+              google.script.run
+                .withSuccessHandler(function (url) {
+                  if (w) w.location.href = url; else window.open(url, '_blank');
+                })
+                .withFailureHandler(function (err) {
+                  if (w) w.close();
+                  alert('O2D login failed: ' + (err && err.message ? err.message : err));
+                })
+                .getO2DSsoUrl(window.SESSION_TOKEN);
+            }
+          </script>
+
+          <a href="https://script.google.com/a/macros/akashenterprise.in/s/AKfycbxBE6UOkg4kHkntskWCeraCe8l8sNW0tgQHevStpsfXZZhN97TNleAfZvrrRnfV7bpqhw/exec" class="nav-link" target="_blank">D2C FMS</a>
+
+        </div>
+     
+        <!-- User info and logout container -->
+        <div class="user-container">
+          <div class="user-info">
+            <div class="user-avatar" id="userAvatar">U</div>
+            <span>
+              <span class="user-name" id="userName">User Name</span>
+              <span class="user-role" id="userRole">Admin</span>
+            </span>
+          </div>
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=logout" class="logout-btn">Logout</a>
+          <script>
+            (function () {
+              var t = '<?= getSessionTokenForPage() ?>';
+    var dev = '';
+    try { dev = localStorage.getItem('erp_device_id') || ''; } catch (e) {}
+    window.SESSION_TOKEN = t + '|' + dev;
+
+    // Hide page until this device is verified as the logged-in device
+    document.documentElement.style.visibility = 'hidden';
+    google.script.run
+      .withSuccessHandler(function (ok) {
+        if (!ok) {
+          document.body.innerHTML =
+            '<div style="padding:60px;text-align:center;font-family:Poppins,sans-serif;">' +
+            '<h2 style="margin-bottom:10px;">Please login</h2>' +
+            '<p style="color:#666;margin-bottom:20px;">This session belongs to another user/device.</p>' +
+            '<a href="<?= ScriptApp.getService().getUrl(); ?>" target="_top" ' +
+            'style="background:#6C63FF;color:#fff;padding:10px 24px;border-radius:8px;text-decoration:none;">Go to Login</a></div>';
+        }
+        document.documentElement.style.visibility = 'visible';
+      })
+      .withFailureHandler(function () {
+        document.documentElement.style.visibility = 'visible';
+      })
+      .checkSession(window.SESSION_TOKEN);
+              if (!t) return;
+              document.querySelectorAll('a[href*="?page="]').forEach(function (a) {
+                var h = a.getAttribute('href');
+                if (!/[?&]t=/.test(h)) a.setAttribute('href', h + '&t=' + encodeURIComponent(t));
+              });
+            })();
+          </script>
+        </div>
+      </div>
+    </div>
+
+<div class="filter-container">
+  <div class="filter-row">
+    <div class="filter-group">
+      <label>Name:</label>
+      <div class="filter-dropdown">
+        <input type="text" id="nameSearch" class="filter-search-input" placeholder="Search names..." readonly>
+        <div id="nameFilter" class="checkbox-group checkbox-dropdown">
+          <!-- Checkboxes will be populated dynamically -->
+        </div>
+      </div>
+    </div>
+    <div class="filter-group">
+      <label>Week No.:</label>
+      <div class="filter-dropdown">
+        <input type="text" id="weekSearch" class="filter-search-input" placeholder="Search weeks..." readonly>
+        <div id="weekFilter" class="checkbox-group checkbox-dropdown">
+          <!-- Checkboxes will be populated dynamically -->
+        </div>
+      </div>
+    </div>
+    <div class="filter-group">
+      <label>Status:</label>
+      <div class="filter-dropdown">
+        <input type="text" id="statusSearch" class="filter-search-input" placeholder="Search status..." readonly>
+        <div id="statusFilter" class="checkbox-group checkbox-dropdown">
+          <!-- Checkboxes will be populated dynamically -->
+        </div>
+      </div>
+    </div>
+    <div class="filter-group">
+      <label>Date Range:</label>
+      <div class="date-inputs">
+        <input type="date" id="startDate" class="search-box date-input" onchange="applyFilters()">
+        <span>to</span>
+        <input type="date" id="endDate" class="search-box date-input" onchange="applyFilters()">
+      </div>
+    </div>
+  </div>
+  <div class="filter-actions">
+    <button id="applyFilters" class="btn btn-primary">Apply Filters</button>
+    <button id="clearFilters" class="btn btn-secondary">Clear Filters</button>
+    <button id="exportPdf" class="btn btn-primary">Export PDF</button>
+  </div>
+</div>
+
+
+<!-- Updated Summary Table Container -->
+<div class="table-container">
+  <h3>Summary Table</h3>
+  <button id="toggleBreakdown" class="btn btn-primary" style="margin-bottom: 10px;">Show Breakdown</button>
+  <div class="table-wrapper">
+    <div id="summaryLoading" class="loading">Loading summary data...</div>
+    <table id="summaryTable" style="display: none;">
+      <thead id="summaryTableHead">
+        <!-- Headers will be dynamically set -->
+      </thead>
+      <tbody id="summaryTableBody">
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+    <!-- Delegation Table Container -->
+    <div class="table-container">
+      <h3>Delegation Data</h3>
+      <div class="table-wrapper">
+        <div id="delegationLoading" class="loading">Loading delegation data...</div>
+        <table id="delegationTable" style="display: none;">
+          <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>Task Id</th>
+              <th>Assignee</th>
+              <th>Name</th>
+              <th>Task</th>
+              <th>Planned</th>
+              <th>Revisions</th>
+              <th>Status</th>
+              <th>Actual</th>
+            </tr>
+          </thead>
+          <tbody id="delegationTableBody">
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Checklist Table Container -->
+    <div class="table-container">
+      <h3>Checklist Data</h3>
+      <div class="table-wrapper">
+        <div id="checklistLoading" class="loading">Loading checklist data...</div>
+        <table id="checklistTable" style="display: none;">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Task ID</th>
+              <th>Freq</th>
+              <th>Task</th>
+              <th>Planned</th>
+              <th>Actual</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="checklistTableBody">
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+  const userData = <?!= includeUserData(); ?>;
+
+  if (userData) {
+    google.script.run.withSuccessHandler(function(count) {
+      const countElement = document.getElementById('needHelpCount');
+      if(countElement) countElement.textContent = count;
+    }).getNeedHelpCount(userData.name, userData.role);
+  }
+});
+  
+let originalDelegationData = [];
+let originalChecklistData = [];
+
+// Make sure user data is loaded and displayed
+document.addEventListener('DOMContentLoaded', function() {
+  // User session is already included in the page by includeUserData()
+  const userData = <?!= includeUserData(); ?>;
+  
+  // Check if user data exists and user elements exist
+  if (userData) {
+    // Get the user info elements
+    const userNameElement = document.getElementById('userName');
+    const userRoleElement = document.getElementById('userRole');
+    const userAvatarElement = document.getElementById('userAvatar');
+    
+    // Update user info if elements exist
+    if (userNameElement) userNameElement.textContent = userData.name;
+    if (userRoleElement) userRoleElement.textContent = userData.role;
+    if (userAvatarElement) userAvatarElement.textContent = userData.name.charAt(0).toUpperCase();
+  }
+});
+
+// Add this event listener in the DOMContentLoaded section
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('applyFilters').addEventListener('click', applyFilters);
+  document.getElementById('clearFilters').addEventListener('click', clearFilters);
+  
+  // Add toggle breakdown button listener
+  document.getElementById('toggleBreakdown').addEventListener('click', function() {
+    isBreakdownView = !isBreakdownView;
+    if (isBreakdownView) {
+      displayBreakdownView();
+      this.textContent = 'Show Totals';
+    } else {
+      displayTotalsView();
+      this.textContent = 'Show Breakdown';
+    }
+  });
+});
+
+window.onload = function() {
+  // Get user session data
+  const userData = <?!= includeUserData(); ?>;
+  
+  if (userData) {
+    // Display user info
+    const userNameElement = document.getElementById('userName');
+    const userRoleElement = document.getElementById('userRole');
+    const userAvatarElement = document.getElementById('userAvatar');
+    
+    if (userNameElement && userRoleElement && userAvatarElement) {
+      userNameElement.textContent = userData.name;
+      userRoleElement.textContent = userData.role;
+      
+      // Set avatar initial
+      const initialLetter = userData.name.charAt(0).toUpperCase();
+      userAvatarElement.textContent = initialLetter;
+    } else {
+      console.error('User info elements not found in DOM');
+    }
+    
+    // Load data
+    loadData();
+  } else {
+    // Redirect to login if no valid session
+    document.body.innerHTML = '<div style="padding:60px;text-align:center;font-family:Poppins,sans-serif;">Session expired. <a href="<?= ScriptApp.getService().getUrl(); ?>" target="_top">Login again</a></div>';
+  }
+};
+      
+let isBreakdownView = false; // Initially show totals
+
+
+
+// Add this after the originalDelegationData and originalChecklistData declarations
+let filteredDelegationData = [];
+let filteredChecklistData = [];
+
+// Function to populate filter checkboxes
+function populateFilters() {
+  const nameSet = new Set();
+  const weekSet = new Set();
+  const statusSet = new Set();
+  
+  // Get current week number
+  const currentWeek = getCurrentWeekNumber();
+  
+  // Collect unique values from delegation data
+  originalDelegationData.forEach(row => {
+    if (row[3]) nameSet.add(row[3]); // Name
+    if (row[7]) statusSet.add(row[7]); // Status
+    // Get Week No. from Planned column (index 5) - timestamp format
+    if (row[5]) {
+      const weekNo = getWeekNumber(row[5]);
+      weekSet.add(weekNo);
+    }
+  });
+  
+  // Collect unique values from checklist data
+  originalChecklistData.forEach(row => {
+    if (row[0]) nameSet.add(row[0]); // Name
+    if (row[6]) statusSet.add(row[6]); // Status
+    // Get Week No. from Planned column (index 4) - timestamp format
+    if (row[4]) {
+      const weekNo = getWeekNumber(row[4]);
+      weekSet.add(weekNo);
+    }
+  });
+  
+  // Populate Name checkboxes
+  const nameFilter = document.getElementById('nameFilter');
+  nameFilter.innerHTML = '';
+  Array.from(nameSet).sort().forEach(name => {
+    const label = document.createElement('label');
+    label.innerHTML = `<input type="checkbox" value="${name}"> ${name}`;
+    label.setAttribute('data-value', name.toLowerCase());
+    nameFilter.appendChild(label);
+  });
+  
+  // Populate Week No. checkboxes
+  const weekFilter = document.getElementById('weekFilter');
+  weekFilter.innerHTML = '';
+  Array.from(weekSet).sort((a, b) => a - b).forEach(week => {
+    const label = document.createElement('label');
+    const displayText = week === currentWeek ? `Week ${week} (Current Week)` : `Week ${week}`;
+    const searchText = week === currentWeek ? `week ${week} current week` : `week ${week}`;
+    
+    label.innerHTML = `<input type="checkbox" value="${week}"> ${displayText}`;
+    label.setAttribute('data-value', searchText.toLowerCase());
+    weekFilter.appendChild(label);
+  });
+
+  // Populate Status checkboxes
+  const statusFilter = document.getElementById('statusFilter');
+  statusFilter.innerHTML = '';
+  Array.from(statusSet).sort().forEach(status => {
+    const label = document.createElement('label');
+    label.innerHTML = `<input type="checkbox" value="${status}"> ${status}`;
+    label.setAttribute('data-value', status.toLowerCase());
+    statusFilter.appendChild(label);
+  });
+  
+  // Setup dropdown functionality
+  setupDropdown('nameSearch', 'nameFilter');
+  setupDropdown('weekSearch', 'weekFilter');
+  setupDropdown('statusSearch', 'statusFilter');
+}
+
+
+// Function to setup dropdown functionality
+function setupDropdown(inputId, dropdownId) {
+  const input = document.getElementById(inputId);
+  const dropdown = document.getElementById(dropdownId);
+  const container = input.closest('.filter-dropdown');
+  
+  if (!input || !dropdown || !container) return;
+  
+  // Toggle dropdown on input click
+  input.addEventListener('click', function(e) {
+    e.stopPropagation();
+    
+    // Close other dropdowns
+    document.querySelectorAll('.checkbox-dropdown.active').forEach(dd => {
+      if (dd !== dropdown) {
+        dd.classList.remove('active');
+        dd.closest('.filter-dropdown').classList.remove('active');
+      }
+    });
+    
+    // Toggle current dropdown
+    dropdown.classList.toggle('active');
+    container.classList.toggle('active');
+  });
+  
+  // Prevent dropdown from closing when clicking inside
+  dropdown.addEventListener('click', function(e) {
+    e.stopPropagation();
+  });
+  
+  // Update input placeholder with selected count
+  dropdown.addEventListener('change', function() {
+    updateInputPlaceholder(inputId, dropdownId);
+  });
+}
+
+// Function to update input placeholder with selection count
+function updateInputPlaceholder(inputId, dropdownId) {
+  const input = document.getElementById(inputId);
+  const dropdown = document.getElementById(dropdownId);
+  const checkedBoxes = dropdown.querySelectorAll('input[type="checkbox"]:checked');
+  const count = checkedBoxes.length;
+  
+  const placeholders = {
+    'nameSearch': 'Search names...',
+    'weekSearch': 'Search weeks...',
+    'statusSearch': 'Search status...'
+  };
+  
+  if (count > 0) {
+    input.placeholder = `${count} selected`;
+  } else {
+    input.placeholder = placeholders[inputId];
+  }
+}
+
+// Close dropdowns when clicking outside
+document.addEventListener('click', function() {
+  document.querySelectorAll('.checkbox-dropdown.active').forEach(dropdown => {
+    dropdown.classList.remove('active');
+    dropdown.closest('.filter-dropdown').classList.remove('active');
+  });
+});
+
+// Function to setup search functionality for filters
+function setupFilterSearch(searchInputId, filterContainerId) {
+  const searchInput = document.getElementById(searchInputId);
+  const filterContainer = document.getElementById(filterContainerId);
+  
+  if (!searchInput || !filterContainer) return;
+  
+  searchInput.addEventListener('input', function() {
+    const searchTerm = this.value.toLowerCase();
+    const labels = filterContainer.querySelectorAll('label');
+    
+    labels.forEach(label => {
+      const text = label.getAttribute('data-value');
+      if (text.includes(searchTerm)) {
+        label.classList.remove('hidden');
+      } else {
+        label.classList.add('hidden');
+      }
+    });
+  });
+}
+
+
+// Helper function to get week number from timestamp string
+function getWeekNumber(dateInput) {
+  let date;
+  
+  // Check if input is a string in dd/mm/yyyy HH:mm:ss format
+  if (typeof dateInput === 'string') {
+    // Parse dd/mm/yyyy HH:mm:ss format
+    const parts = dateInput.split(' ')[0].split('/');
+    if (parts.length === 3) {
+      const day = parseInt(parts[0]);
+      const month = parseInt(parts[1]) - 1; // Month is 0-indexed
+      const year = parseInt(parts[2]);
+      date = new Date(year, month, day);
+    } else {
+      date = new Date(dateInput);
+    }
+  } else {
+    date = new Date(dateInput);
+  }
+  
+  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  const dayNum = d.getUTCDay() || 7;
+  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+}
+
+// Helper function to get current week number
+function getCurrentWeekNumber() {
+  const today = new Date();
+  return getWeekNumber(today);
+}
+
+
+// Function to apply filters (updated to include date range)
+function applyFilters() {
+  const selectedNames = Array.from(document.querySelectorAll('#nameFilter input:checked')).map(cb => cb.value);
+  const selectedWeeks = Array.from(document.querySelectorAll('#weekFilter input:checked')).map(cb => cb.value);
+  const selectedStatuses = Array.from(document.querySelectorAll('#statusFilter input:checked')).map(cb => cb.value);
+  
+  // Get date range values
+  const startDate = document.getElementById('startDate').value;
+  const endDate = document.getElementById('endDate').value;
+  
+  // Filter delegation data
+  filteredDelegationData = originalDelegationData.filter(row => {
+    const name = row[3];
+    const status = row[7];
+    const planned = row[5]; // timestamp string
+    const week = planned ? getWeekNumber(planned) : null;
+    
+    // Date range check for delegation (using Planned column, index 5)
+    let dateMatch = true;
+    if (startDate || endDate) {
+      const rowDate = planned ? new Date(planned.split(' ')[0].split('/').reverse().join('-')) : null; // Convert dd/mm/yyyy to yyyy-mm-dd
+      if (rowDate) {
+        if (startDate && rowDate < new Date(startDate)) dateMatch = false;
+        if (endDate && rowDate > new Date(endDate)) dateMatch = false;
+      } else {
+        dateMatch = false; // Exclude if no valid date
+      }
+    }
+    
+    const nameMatch = selectedNames.length === 0 || selectedNames.includes(name);
+    const statusMatch = selectedStatuses.length === 0 || selectedStatuses.includes(status);
+    const weekMatch = selectedWeeks.length === 0 || (week && selectedWeeks.includes(week.toString()));
+    
+    return nameMatch && statusMatch && weekMatch && dateMatch;
+  });
+
+  // Filter checklist data
+  filteredChecklistData = originalChecklistData.filter(row => {
+    const name = row[0];
+    const status = row[6];
+    const planned = row[4]; // timestamp string
+    const week = planned ? getWeekNumber(planned) : null;
+    
+    // Date range check for checklist (using Planned column, index 4)
+    let dateMatch = true;
+    if (startDate || endDate) {
+      const rowDate = planned ? new Date(planned.split(' ')[0].split('/').reverse().join('-')) : null; // Convert dd/mm/yyyy to yyyy-mm-dd
+      if (rowDate) {
+        if (startDate && rowDate < new Date(startDate)) dateMatch = false;
+        if (endDate && rowDate > new Date(endDate)) dateMatch = false;
+      } else {
+        dateMatch = false; // Exclude if no valid date
+      }
+    }
+    
+    const nameMatch = selectedNames.length === 0 || selectedNames.includes(name);
+    const statusMatch = selectedStatuses.length === 0 || selectedStatuses.includes(status);
+    const weekMatch = selectedWeeks.length === 0 || (week && selectedWeeks.includes(week.toString()));
+    
+    return nameMatch && statusMatch && weekMatch && dateMatch;
+  });
+  
+  // Display filtered data
+  displayDelegationData(filteredDelegationData);
+  displayChecklistData(filteredChecklistData);
+  // Recreate summary with filtered data
+  createSummaryDataFromFiltered();
+  
+  // Close all dropdowns after applying filters
+  document.querySelectorAll('.checkbox-dropdown.active').forEach(dropdown => {
+    dropdown.classList.remove('active');
+    dropdown.closest('.filter-dropdown').classList.remove('active');
+  });
+}
+
+// Function to clear filters (updated to include date range)
+function clearFilters() {
+  // Clear all checkboxes
+  document.querySelectorAll('.checkbox-dropdown input[type="checkbox"]').forEach(cb => cb.checked = false);
+  
+  // Reset input placeholders
+  document.getElementById('nameSearch').placeholder = 'Search names...';
+  document.getElementById('weekSearch').placeholder = 'Search weeks...';
+  document.getElementById('statusSearch').placeholder = 'Search status...';
+  
+  // Clear date range inputs
+  document.getElementById('startDate').value = '';
+  document.getElementById('endDate').value = '';
+  
+  // Close all dropdowns
+  document.querySelectorAll('.checkbox-dropdown.active').forEach(dropdown => {
+    dropdown.classList.remove('active');
+    dropdown.closest('.filter-dropdown').classList.remove('active');
+  });
+  
+  // Reset to original data
+  filteredDelegationData = [...originalDelegationData];
+  filteredChecklistData = [...originalChecklistData];
+  displayDelegationData(filteredDelegationData);
+  displayChecklistData(filteredChecklistData);
+  createSummaryDataFromFiltered();
+}
+
+
+
+// Modified createSummaryDataFromFiltered function
+function createSummaryDataFromFiltered() {
+  const summaryLoading = document.getElementById('summaryLoading');
+  const summaryTable = document.getElementById('summaryTable');
+  const summaryTableHead = document.getElementById('summaryTableHead');
+  const summaryTableBody = document.getElementById('summaryTableBody');
+  
+  if (!summaryLoading || !summaryTable || !summaryTableHead || !summaryTableBody) {
+    console.error('Summary table elements not found');
+    return;
+  }
+  
+  // Get unique names from filtered data
+  const uniqueNames = new Set();
+  filteredDelegationData.forEach(row => {
+    if (row[3]) uniqueNames.add(row[3]);
+  });
+  filteredChecklistData.forEach(row => {
+    if (row[0]) uniqueNames.add(row[0]);
+  });
+  
+  // Create summary data with separate delegation and checklist counts
+  const summaryData = {};
+  uniqueNames.forEach(name => {
+    summaryData[name] = {
+      totalDelegationTasks: 0,
+      totalChecklistTasks: 0,
+      delegation: {
+        'Pending Within Limit': 0,
+        'Pending Overdue': 0,
+        'Completed On Time': 0,
+        'Completed With Delay': 0,
+        'Approval Waiting': 0
+      },
+      checklist: {
+        'Pending Within Limit': 0,
+        'Pending Overdue': 0,
+        'Completed On Time': 0,
+        'Completed With Delay': 0,
+        'Approval Waiting': 0
+      }
+    };
+  });
+
+  // Aggregate from filtered delegation data
+  filteredDelegationData.forEach(row => {
+    const name = row[3];
+    const status = row[7];
+    if (name && summaryData[name]) {
+      summaryData[name].totalDelegationTasks++;
+      if (summaryData[name].delegation[status] !== undefined) {
+        summaryData[name].delegation[status]++;
+      }
+    }
+  });
+  
+  // Aggregate from filtered checklist data
+  filteredChecklistData.forEach(row => {
+    const name = row[0];
+    const status = row[6];
+    if (name && summaryData[name]) {
+      summaryData[name].totalChecklistTasks++;
+      if (summaryData[name].checklist[status] !== undefined) {
+        summaryData[name].checklist[status]++;
+      }
+    }
+  });
+
+  // Store summary data globally so it can be accessed by display functions
+  window.currentSummaryData = summaryData;
+
+  // Display based on current view
+  if (isBreakdownView) {
+    displayBreakdownView();
+    document.getElementById('toggleBreakdown').textContent = 'Show Totals';
+  } else {
+    displayTotalsView();
+    document.getElementById('toggleBreakdown').textContent = 'Show Breakdown';
+  }
+  
+  summaryLoading.style.display = 'none';
+  summaryTable.style.display = 'table';
+}
+
+function calculatePercentages(data) {
+  const totalTasks = data.totalDelegationTasks + data.totalChecklistTasks;
+  const completedOnTime = data.delegation['Completed On Time'] + data.checklist['Completed On Time'];
+  const completedWithDelay = data.delegation['Completed With Delay'] + data.checklist['Completed With Delay'];
+  const totalCompleted = completedOnTime + completedWithDelay;
+  
+  // Calculate negative percentages
+  const taskNotDonePercent = totalTasks > 0 ? (((totalTasks - totalCompleted) / totalTasks) * 100).toFixed(1) : '0.0';
+  const taskNotDoneOnTimePercent = totalCompleted > 0 ? ((completedWithDelay / totalCompleted) * 100).toFixed(1) : '0.0';
+  
+  return { 
+    taskDonePercent: `-${taskNotDonePercent}`,  // Show as negative
+    taskDoneOnTimePercent: `-${taskNotDoneOnTimePercent}`  // Show as negative
+  };
+}
+
+function calculateBreakdownPercentages(data, type) {
+  const totalTasks = data[`total${type}Tasks`];
+  const completedOnTime = data[type.toLowerCase()]['Completed On Time'];
+  const completedWithDelay = data[type.toLowerCase()]['Completed With Delay'];
+  const totalCompleted = completedOnTime + completedWithDelay;
+  
+  // Calculate negative percentages
+  const taskNotDonePercent = totalTasks > 0 ? (((totalTasks - totalCompleted) / totalTasks) * 100).toFixed(1) : '0.0';
+  const taskNotDoneOnTimePercent = totalCompleted > 0 ? ((completedWithDelay / totalCompleted) * 100).toFixed(1) : '0.0';
+  
+  return { 
+    taskDonePercent: `-${taskNotDonePercent}`,  // Show as negative
+    taskDoneOnTimePercent: `-${taskNotDoneOnTimePercent}`  // Show as negative
+  };
+}
+
+// Move display functions outside
+function displayTotalsView() {
+  const summaryTableHead = document.getElementById('summaryTableHead');
+  const summaryTableBody = document.getElementById('summaryTableBody');
+  const summaryData = window.currentSummaryData;
+  
+  if (!summaryData) return;
+  
+  summaryTableHead.innerHTML = `
+    <tr>
+      <th>Name</th>
+      <th>Task Done %</th>
+      <th>Task Done On Time %</th>
+      <th>Total Tasks</th>
+      <th>Pending Within Limit</th>
+      <th>Pending Overdue</th>
+      <th>Completed On Time</th>
+      <th>Completed With Delay</th>
+      <th>Approval Waiting</th>
+    </tr>
+  `;
+  
+  summaryTableBody.innerHTML = '';
+  
+  Object.keys(summaryData).forEach(name => {
+    const data = summaryData[name];
+    const { taskDonePercent, taskDoneOnTimePercent } = calculatePercentages(data);
+    const totalTasks = data.totalDelegationTasks + data.totalChecklistTasks;
+    const totalPendingWithinLimit = data.delegation['Pending Within Limit'] + data.checklist['Pending Within Limit'];
+    const totalPendingOverdue = data.delegation['Pending Overdue'] + data.checklist['Pending Overdue'];
+    const totalCompletedOnTime = data.delegation['Completed On Time'] + data.checklist['Completed On Time'];
+    const totalCompletedWithDelay = data.delegation['Completed With Delay'] + data.checklist['Completed With Delay'];
+    const totalApprovalWaiting = data.delegation['Approval Waiting'] + data.checklist['Approval Waiting'];
+    
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${name}</td>
+      <td class="${getPercentClass(taskDonePercent)}">${taskDonePercent}%</td>
+      <td class="${getPercentClass(taskDoneOnTimePercent)}">${taskDoneOnTimePercent}%</td>
+      <td class="${totalTasks > 0 ? 'highlight-count' : ''}">${totalTasks}</td>
+      <td class="${totalPendingWithinLimit > 0 ? 'highlight-count' : ''}">${totalPendingWithinLimit}</td>
+      <td class="${totalPendingOverdue > 0 ? 'highlight-count' : ''}">${totalPendingOverdue}</td>
+      <td class="${totalCompletedOnTime > 0 ? 'highlight-count' : ''}">${totalCompletedOnTime}</td>
+      <td class="${totalCompletedWithDelay > 0 ? 'highlight-count' : ''}">${totalCompletedWithDelay}</td>
+      <td class="${totalApprovalWaiting > 0 ? 'highlight-count' : ''}">${totalApprovalWaiting}</td>
+    `;
+    summaryTableBody.appendChild(tr);
+  });
+}
+
+function displayBreakdownView() {
+  const summaryTableHead = document.getElementById('summaryTableHead');
+  const summaryTableBody = document.getElementById('summaryTableBody');
+  const summaryData = window.currentSummaryData;
+  
+  if (!summaryData) return;
+  
+  summaryTableHead.innerHTML = `
+    <tr>
+      <th rowspan="2">Name</th>
+      <th colspan="2">Task Done %</th>
+      <th colspan="2">Task Done On Time %</th>
+      <th colspan="2">Total Tasks</th>
+      <th colspan="2">Pending Within Limit</th>
+      <th colspan="2">Pending Overdue</th>
+      <th colspan="2">Completed On Time</th>
+      <th colspan="2">Completed With Delay</th>
+      <th colspan="2">Approval Waiting</th>
+    </tr>
+    <tr>
+      <th>Delegation</th>
+      <th>Checklist</th>
+      <th>Delegation</th>
+      <th>Checklist</th>
+      <th>Delegation</th>
+      <th>Checklist</th>
+      <th>Delegation</th>
+      <th>Checklist</th>
+      <th>Delegation</th>
+      <th>Checklist</th>
+      <th>Delegation</th>
+      <th>Checklist</th>
+      <th>Delegation</th>
+      <th>Checklist</th>
+      <th>Delegation</th>
+      <th>Checklist</th>
+    </tr>
+  `;
+  
+  summaryTableBody.innerHTML = '';
+  
+  Object.keys(summaryData).forEach(name => {
+    const data = summaryData[name];
+    const delegationPercents = calculateBreakdownPercentages(data, 'Delegation');
+    const checklistPercents = calculateBreakdownPercentages(data, 'Checklist');
+    
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${name}</td>
+      <td class="${getPercentClass(delegationPercents.taskDonePercent)}">${delegationPercents.taskDonePercent}%</td>
+      <td class="${getPercentClass(checklistPercents.taskDonePercent)}">${checklistPercents.taskDonePercent}%</td>
+      <td class="${getPercentClass(delegationPercents.taskDoneOnTimePercent)}">${delegationPercents.taskDoneOnTimePercent}%</td>
+      <td class="${getPercentClass(checklistPercents.taskDoneOnTimePercent)}">${checklistPercents.taskDoneOnTimePercent}%</td>
+      <td class="${data.totalDelegationTasks > 0 ? 'highlight-count' : ''}">${data.totalDelegationTasks}</td>
+      <td class="${data.totalChecklistTasks > 0 ? 'highlight-count' : ''}">${data.totalChecklistTasks}</td>
+      <td class="${data.delegation['Pending Within Limit'] > 0 ? 'highlight-count' : ''}">${data.delegation['Pending Within Limit']}</td>
+      <td class="${data.checklist['Pending Within Limit'] > 0 ? 'highlight-count' : ''}">${data.checklist['Pending Within Limit']}</td>
+      <td class="${data.delegation['Pending Overdue'] > 0 ? 'highlight-count' : ''}">${data.delegation['Pending Overdue']}</td>
+      <td class="${data.checklist['Pending Overdue'] > 0 ? 'highlight-count' : ''}">${data.checklist['Pending Overdue']}</td>
+      <td class="${data.delegation['Completed On Time'] > 0 ? 'highlight-count' : ''}">${data.delegation['Completed On Time']}</td>
+      <td class="${data.checklist['Completed On Time'] > 0 ? 'highlight-count' : ''}">${data.checklist['Completed On Time']}</td>
+      <td class="${data.delegation['Completed With Delay'] > 0 ? 'highlight-count' : ''}">${data.delegation['Completed With Delay']}</td>
+      <td class="${data.checklist['Completed With Delay'] > 0 ? 'highlight-count' : ''}">${data.checklist['Completed With Delay']}</td>
+      <td class="${data.delegation['Approval Waiting'] > 0 ? 'highlight-count' : ''}">${data.delegation['Approval Waiting']}</td>
+      <td class="${data.checklist['Approval Waiting'] > 0 ? 'highlight-count' : ''}">${data.checklist['Approval Waiting']}</td>
+    `;
+    summaryTableBody.appendChild(tr);
+  });
+}
+
+function getPercentClass(percent) {
+  // Remove negative sign and parse
+  const p = Math.abs(parseFloat(percent));
+  
+  // Reverse the logic - lower negative is better
+  if (p <= 20) return 'percent-high';      // -20% or less is good (80%+ completion)
+  if (p <= 50) return 'percent-medium';    // -20% to -50% is medium
+  return 'percent-low';                     // -50% or more is bad (less than 50% completion)
+}
+
+
+function loadData() {
+  // Load delegation data
+  google.script.run
+    .withSuccessHandler(function(delegationData) {
+      initializeDelegationData(delegationData);
+      
+      // After delegation data is loaded, load checklist data
+      google.script.run
+        .withSuccessHandler(function(checklistData) {
+          initializeChecklistData(checklistData);
+          // Initialize filters AFTER both datasets are loaded
+          populateFilters();
+          // Set initial filtered data
+          filteredDelegationData = [...originalDelegationData];
+          filteredChecklistData = [...originalChecklistData];
+          // Create summary
+          createSummaryDataFromFiltered();
+        })
+        .withFailureHandler(showError)
+        .getChecklistDData();
+    })
+    .withFailureHandler(showError)
+    .getDelegationData();
+}
+
+function initializeDelegationData(data) {
+  if (!data) {
+    showError("No delegation data received from server");
+    return;
+  }
+  
+  originalDelegationData = data;
+  
+  // Display delegation data
+  displayDelegationData(data);
+}
+
+function initializeChecklistData(data) {
+  if (!data) {
+    showError("No checklist data received from server");
+    return;
+  }
+  
+  originalChecklistData = data;
+  
+  // Display checklist data
+  displayChecklistData(data);
+}
+
+function displayDelegationData(data) {
+  const tableBody = document.getElementById('delegationTableBody');
+  const loadingDiv = document.getElementById('delegationLoading');
+  const table = document.getElementById('delegationTable');
+  
+  if (!tableBody || !loadingDiv || !table) {
+    console.error('Delegation table elements not found');
+    return;
+  }
+  
+  tableBody.innerHTML = '';
+  
+  data.forEach(row => {
+    const tr = document.createElement('tr');
+    
+    row.forEach((cell, index) => {
+      const td = document.createElement('td');
+      
+      if (index === 7) { // Status column
+        const statusClass = getStatusClass(cell);
+        td.innerHTML = `<span class="status-badge ${statusClass}">${cell}</span>`;
+      } else {
+        td.textContent = cell;
+      }
+      
+      tr.appendChild(td);
+    });
+    
+    tableBody.appendChild(tr);
+  });
+  
+  loadingDiv.style.display = 'none';
+  table.style.display = 'table';
+}
+
+function displayChecklistData(data) {
+  const tableBody = document.getElementById('checklistTableBody');
+  const loadingDiv = document.getElementById('checklistLoading');
+  const table = document.getElementById('checklistTable');
+  
+  if (!tableBody || !loadingDiv || !table) {
+    console.error('Checklist table elements not found');
+    return;
+  }
+  
+  tableBody.innerHTML = '';
+  
+  data.forEach(row => {
+    const tr = document.createElement('tr');
+    
+    row.forEach((cell, index) => {
+      const td = document.createElement('td');
+      
+      if (index === 6) { // Status column (last column in checklist)
+        const statusClass = getStatusClass(cell);
+        td.innerHTML = `<span class="status-badge ${statusClass}">${cell}</span>`;
+      } else {
+        td.textContent = cell;
+      }
+      
+      tr.appendChild(td);
+    });
+    
+    tableBody.appendChild(tr);
+  });
+  
+  loadingDiv.style.display = 'none';
+  table.style.display = 'table';
+}
+
+function getStatusClass(status) {
+  const statusMap = {
+    'Pending Within Limit': 'status-pending-within-limit',
+    'Pending Overdue': 'status-pending-overdue',
+    'Completed On Time': 'status-completed-on-time',
+    'Completed With Delay': 'status-completed-with-delay',
+    'Approval Waiting': 'status-approval-waiting',
+    'Shifted': 'status-shifted'
+  };
+  
+  return statusMap[status] || 'status-other';
+}
+
+function showError(error) {
+  // Show error in both loading divs if they exist
+  const delegationLoading = document.getElementById('delegationLoading');
+  const checklistLoading = document.getElementById('checklistLoading');
+  
+  if (delegationLoading) {
+    delegationLoading.innerHTML = 'Error loading data: ' + error;
+    delegationLoading.style.color = 'red';
+  }
+  
+  if (checklistLoading) {
+    checklistLoading.innerHTML = 'Error loading data: ' + error;
+    checklistLoading.style.color = 'red';
+  }
+}
+
+
+document.getElementById('exportPdf').addEventListener('click', function() {
+  const summaryTable = document.getElementById('summaryTable');
+  if (summaryTable.style.display !== 'none') {
+    exportTableToPDF();
+  } else {
+    alert('No summary data to export. Please ensure filters are applied and data is loaded.');
+  }
+});
+
+function exportTableToPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({
+    orientation: 'landscape',
+    unit: 'mm',
+    format: 'a3'
+  });
+
+  const table = document.getElementById('summaryTable');
+  const data = [];
+  const cellClasses = [];
+
+  // Extract header structure
+  const headerRows = table.querySelectorAll('thead tr');
+  const headerStructure = [];
+  
+  headerRows.forEach(row => {
+    const rowHeaders = [];
+    row.querySelectorAll('th').forEach(th => {
+      const colspan = parseInt(th.getAttribute('colspan')) || 1;
+      const rowspan = parseInt(th.getAttribute('rowspan')) || 1;
+      const text = th.textContent.trim();
+      rowHeaders.push({ text, colspan, rowspan });
+    });
+    headerStructure.push(rowHeaders);
+  });
+
+  // Extract body data and classes
+  const bodyRows = table.querySelectorAll('tbody tr');
+  bodyRows.forEach(row => {
+    const rowData = [];
+    const rowClasses = [];
+    row.querySelectorAll('td').forEach(td => {
+      rowData.push(td.textContent.trim());
+      rowClasses.push(td.className);
+    });
+    data.push(rowData);
+    cellClasses.push(rowClasses);
+  });
+
+  // Determine if we have two-level headers
+  const hasTwoLevelHeaders = headerStructure.length === 2;
+  
+  // Calculate total columns from body data
+  const numColumns = data.length > 0 ? data[0].length : 0;
+
+  // Calculate column widths
+  const pageWidth = doc.internal.pageSize.getWidth() - 20;
+  const baseColWidth = pageWidth / numColumns;
+  const colWidths = new Array(numColumns).fill(baseColWidth);
+
+  // Set font
+  doc.setFontSize(7);
+
+  let y = 15;
+  const rowHeight = 6;
+  const headerHeight = 8;
+  const lineHeight = 4;
+
+  // Add title
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(12);
+  doc.setTextColor(0, 0, 0);
+  doc.text('Summary Table', pageWidth / 2 + 10, y, { align: 'center' });
+  y += 10;
+
+  doc.setFontSize(7);
+
+  // Draw headers
+  if (hasTwoLevelHeaders) {
+    // Build a column map to track which columns are covered by rowspan headers
+    const columnMap = new Array(numColumns).fill(null);
+    let currentCol = 0;
+    
+    // First pass: Map first row headers (including rowspan)
+    headerStructure[0].forEach(header => {
+      if (header.rowspan === 2) {
+        // This header spans both rows
+        for (let i = 0; i < header.colspan; i++) {
+          columnMap[currentCol + i] = { level1: header.text, level2: null };
+        }
+      }
+      currentCol += header.colspan;
+    });
+    
+    // Second pass: Map second row headers
+    currentCol = 0;
+    headerStructure[0].forEach(header => {
+      if (header.rowspan === 1) {
+        // This header only in first row, second row has sub-headers
+        const startCol = currentCol;
+        let subCol = 0;
+        headerStructure[1].forEach(subHeader => {
+          if (subCol >= currentCol && subCol < currentCol + header.colspan) {
+            for (let i = 0; i < subHeader.colspan; i++) {
+              if (subCol + i < numColumns) {
+                columnMap[subCol + i] = { level1: header.text, level2: subHeader.text };
+              }
+            }
+            subCol += subHeader.colspan;
+          } else if (subCol < currentCol) {
+            subCol += subHeader.colspan;
+          }
+        });
+      }
+      currentCol += header.colspan;
+    });
+
+    // Draw FIRST level header row
+    let x = 10;
+    doc.setTextColor(0, 0, 0);
+    doc.setFont('helvetica', 'bold');
+    doc.setDrawColor(0, 0, 0);
+
+    headerStructure[0].forEach(header => {
+      const width = baseColWidth * header.colspan;
+      const height = header.rowspan === 2 ? headerHeight * 2 : headerHeight;
+      
+      doc.rect(x, y, width, height, 'S');
+      
+      const text = wrapText(doc, header.text, width - 2);
+      const textY = y + height / 2 + 1;
+      text.forEach((line, i) => {
+        doc.text(line, x + width / 2, textY + (i * 3), { align: 'center' });
+      });
+      
+      x += width;
+    });
+
+    // Draw SECOND level header row (only where rowspan != 2)
+    const ySecondRow = y + headerHeight;
+    x = 10;
+    
+    // Skip columns that have rowspan=2 from first row
+    let colIndex = 0;
+    headerStructure[0].forEach(header => {
+      if (header.rowspan === 2) {
+        // Skip these columns in second row
+        x += baseColWidth * header.colspan;
+        colIndex += header.colspan;
+      } else {
+        // Draw sub-headers for this section
+        const sectionWidth = baseColWidth * header.colspan;
+        let subX = x;
+        
+        // Find matching sub-headers from second row
+        let subHeadersDrawn = 0;
+        headerStructure[1].forEach(subHeader => {
+          if (subHeadersDrawn < header.colspan) {
+            const subWidth = baseColWidth * subHeader.colspan;
+            
+            doc.rect(subX, ySecondRow, subWidth, headerHeight, 'S');
+            
+            const text = wrapText(doc, subHeader.text, subWidth - 2);
+            const textY = ySecondRow + headerHeight / 2 + 1;
+            text.forEach((line, i) => {
+              doc.text(line, subX + subWidth / 2, textY + (i * 3), { align: 'center' });
+            });
+            
+            subX += subWidth;
+            subHeadersDrawn += subHeader.colspan;
+          }
+        });
+        
+        x += sectionWidth;
+        colIndex += header.colspan;
+      }
+    });
+    
+    y += headerHeight * 2;
+
+  } else {
+    // Single level header
+    let x = 10;
+    doc.setTextColor(0, 0, 0);
+    doc.setFont('helvetica', 'bold');
+    doc.setDrawColor(0, 0, 0);
+
+    headerStructure[0].forEach(header => {
+      const width = baseColWidth * header.colspan;
+      
+      doc.rect(x, y, width, headerHeight, 'S');
+      
+      const text = wrapText(doc, header.text, width - 2);
+      const textY = y + headerHeight / 2 + 1;
+      text.forEach((line, i) => {
+        doc.text(line, x + width / 2, textY + (i * 3), { align: 'center' });
+      });
+      
+      x += width;
+    });
+    y += headerHeight;
+  }
+
+  // Reset border color for data rows
+  doc.setDrawColor(200, 200, 200);
+
+  // Draw data rows with alternating colors
+  data.forEach((row, rowIndex) => {
+    // Alternate row colors
+    if (rowIndex % 2 === 0) {
+      doc.setFillColor(245, 245, 245);
+      doc.rect(10, y, pageWidth, rowHeight, 'F');
+    }
+
+    let x = 10;
+    let maxLines = 1;
+
+    // First pass: calculate max lines needed for this row
+    row.forEach((cell, colIndex) => {
+      if (colIndex < colWidths.length) {
+        const wrappedText = wrapText(doc, cell, colWidths[colIndex] - 2);
+        maxLines = Math.max(maxLines, wrappedText.length);
+      }
+    });
+
+    const actualRowHeight = Math.max(rowHeight, maxLines * lineHeight);
+
+    // Draw cells
+    row.forEach((cell, colIndex) => {
+      if (colIndex < colWidths.length) {
+        // Draw cell border
+        doc.rect(x, y, colWidths[colIndex], actualRowHeight, 'S');
+
+        // Apply cell styling
+        applyCellStyle(doc, cellClasses[rowIndex][colIndex], cell);
+
+        // Wrap and draw text
+        const wrappedText = wrapText(doc, cell, colWidths[colIndex] - 2);
+        wrappedText.forEach((line, lineIndex) => {
+          doc.text(line, x + colWidths[colIndex] / 2, y + 4 + (lineIndex * lineHeight), { align: 'center' });
+        });
+
+        x += colWidths[colIndex];
+
+        // Reset styles
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(0, 0, 0);
+      }
+    });
+
+    y += actualRowHeight;
+
+    // Check for page break
+    if (y > doc.internal.pageSize.getHeight() - 20) {
+      doc.addPage();
+      y = 15;
+    }
+  });
+
+  doc.save('summary-table.pdf');
+}
+
+function wrapText(doc, text, maxWidth) {
+  if (!text) return [''];
+  
+  const words = text.toString().split(' ');
+  const lines = [];
+  let currentLine = '';
+
+  words.forEach(word => {
+    const testLine = currentLine + (currentLine ? ' ' : '') + word;
+    const width = doc.getTextWidth(testLine);
+
+    if (width > maxWidth && currentLine) {
+      lines.push(currentLine);
+      currentLine = word;
+    } else {
+      currentLine = testLine;
+    }
+  });
+
+  if (currentLine) {
+    lines.push(currentLine);
+  }
+
+  return lines.length > 0 ? lines : [text.toString()];
+}
+
+function applyCellStyle(doc, className, cellText) {
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(0, 0, 0);
+
+  if (className && className.includes('highlight-count')) {
+    doc.setFont('helvetica', 'bold');
+  }
+
+  if (className && className.includes('percent-high')) {
+    doc.setTextColor(34, 125, 50);
+  } else if (className && className.includes('percent-medium')) {
+    doc.setTextColor(245, 124, 0);
+  } else if (className && className.includes('percent-low')) {
+    doc.setTextColor(198, 40, 40);
+  }
+
+  // Status-based styling
+  const statusColors = {
+    'Completed On Time': [34, 125, 50],
+    'Completed With Delay': [198, 40, 40],
+    'Pending Within Limit': [25, 118, 210],
+    'Pending Overdue': [245, 124, 0],
+    'Approval Waiting': [123, 31, 162],
+    'Shifted': [97, 97, 97]
+  };
+
+  if (statusColors[cellText]) {
+    doc.setTextColor(...statusColors[cellText]);
+  }
+}
+
+
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,3338 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <base target="_top">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      color: #333;
+    }
+
+    .container {
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .nav-menu {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: nowrap;
+      width: 100%;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    .nav-logo img {
+      height: 40px;
+      max-height: 40px;
+      object-fit: contain;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      color: #666;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+      font-size: 13px;
+      margin-right: 4px;
+    }
+
+    .nav-link:hover {
+      color: #6C63FF;
+      background: rgba(108, 99, 255, 0.1);
+      border-color: rgba(108, 99, 255, 0.2);
+    }
+
+    .nav-link.active {
+      background: linear-gradient(135deg, #6C63FF 0%, #5A54D4 100%);
+      color: white;
+      box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3);
+    }
+
+    .user-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .user-avatar {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #6C63FF 0%, #5A54D4 100%);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 14px;
+      box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3);
+    }
+
+    .status-completed-with-delay {
+      color: #ff8c00 !important;
+      /* Dark orange for delay indication */
+      font-weight: 600;
+      padding: 4px 8px;
+      background: rgba(255, 140, 0, 0.1);
+      border-radius: 12px;
+      font-size: 12px;
+    }
+
+    .user-name {
+      font-weight: 600;
+      color: #333;
+      font-size: 13px;
+    }
+
+    .user-role {
+      color: #888;
+      font-size: 11px;
+      display: block;
+      margin-top: 1px;
+    }
+
+    .logout-btn {
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(238, 90, 82, 0.3);
+    }
+
+    .logout-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(238, 90, 82, 0.4);
+    }
+
+    .filters {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      margin-bottom: 20px;
+      padding: 20px;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      align-items: end;
+      position: relative;
+      z-index: 50;
+      /* Moderate z-index for filters section */
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: relative;
+      min-width: 200px;
+      flex: 1;
+    }
+
+    .filter-group label {
+      font-weight: 600;
+      color: #333;
+      font-size: 14px;
+    }
+
+    /* Standard select styling */
+    select {
+      padding: 12px 16px;
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      font-size: 14px;
+      background-color: white;
+      transition: all 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    select:focus {
+      border-color: #6C63FF;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+    }
+
+    .searchable-dropdown {
+      position: relative;
+      min-width: 200px;
+      z-index: 100;
+      /* Lower z-index, but still above tiles */
+    }
+
+    .dropdown-input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      box-sizing: border-box;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+      position: relative;
+      z-index: 1002;
+      /* Ensure input is above other elements */
+    }
+
+    .dropdown-input:focus {
+      border-color: #6C63FF;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+    }
+
+    .dropdown-list {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      max-height: 200px;
+      overflow-y: auto;
+      background: white;
+      border: 2px solid #e9ecef;
+      border-top: none;
+      border-radius: 0 0 8px 8px;
+      z-index: 150;
+      /* High enough to appear above tiles but below modals */
+      display: none;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      /* Enhanced shadow for better visibility */
+    }
+
+    .dropdown-list.show {
+      display: block;
+    }
+
+    .dropdown-item {
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      font-size: 14px;
+      background: white;
+      /* Ensure solid background */
+    }
+
+    .dropdown-item:hover {
+      background-color: rgba(108, 99, 255, 0.1);
+    }
+
+    .dropdown-item.selected {
+      background-color: rgba(108, 99, 255, 0.2);
+      color: #6C63FF;
+      font-weight: 500;
+    }
+
+    .filter-buttons {
+      display: flex;
+      gap: 12px;
+      margin-left: auto;
+      align-items: center;
+    }
+
+    .reset-button,
+    .assign-task-button {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .reset-button {
+      background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+      color: white;
+      box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+    }
+
+    .reset-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(220, 53, 69, 0.4);
+    }
+
+    .assign-task-button {
+      background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+      color: white;
+      box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+    }
+
+    .assign-task-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(40, 167, 69, 0.4);
+    }
+
+    .dashboard-tiles {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin: 12px 0;
+      position: relative;
+      z-index: 1;
+      /* Much lower z-index */
+    }
+
+    .tile {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 10px 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      min-height: 50px;
+      z-index: 1;
+      /* Ensure tiles are below filters */
+      /* Remove any transform that might interfere */
+    }
+
+
+    .tile:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+      z-index: 2;
+      /* Even when hovered, still below filters */
+    }
+
+    .tile::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .tile:hover::before {
+      left: 100%;
+    }
+
+    .tile-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      margin-right: 10px;
+    }
+
+    .total-icon {
+      background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+      color: #2196f3;
+    }
+
+    .pending-icon {
+      background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+      color: #ffc107;
+    }
+
+    .completed-icon {
+      background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+      color: #4caf50;
+    }
+
+    .shifted-icon {
+      background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+      color: #f44336;
+    }
+
+    .approval-waiting-icon {
+      background: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%);
+      color: #009688;
+    }
+
+    .tile-content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tile-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 1px;
+    }
+
+    .tile-label {
+      color: #666;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    /* Table Container */
+    .table-container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      overflow: hidden;
+      margin-top: 20px;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+
+    table {
+      width: 100%;
+      table-layout: auto;
+      border-collapse: collapse;
+      background-color: white;
+    }
+
+    th,
+    td {
+      padding: 15px 12px;
+      text-align: left;
+      border-bottom: 1px solid #e9ecef;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 250px;
+      font-size: 13px;
+    }
+
+    th:not(:nth-child(6)),
+    td:not(:nth-child(6)) {
+      width: 1%;
+    }
+
+    th:nth-child(6),
+    td:nth-child(6) {
+      width: auto;
+      white-space: normal;
+      min-width: 200px;
+    }
+
+    /* Make only the data cells (not header) in column 6 bold */
+    td:nth-child(6) {
+      font-weight: bold;
+    }
+
+    /* Hide specific columns */
+    th:nth-child(19),
+    td:nth-child(19) {
+      display: none;
+    }
+
+    th {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      color: #333;
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    tr:nth-child(even) {
+      background-color: rgba(248, 249, 250, 0.5);
+    }
+
+    tr:hover {
+      background-color: rgba(108, 99, 255, 0.05);
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+      font-size: 16px;
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+      font-style: italic;
+      font-size: 16px;
+    }
+
+    .status-pending {
+      color: #ffc107 !important;
+      font-weight: 600;
+      padding: 4px 8px;
+      background: rgba(255, 193, 7, 0.1);
+      border-radius: 12px;
+      font-size: 12px;
+    }
+
+    .status-shifted {
+      color: #dc3545 !important;
+      font-weight: 600;
+      padding: 4px 8px;
+      background: rgba(220, 53, 69, 0.1);
+      border-radius: 12px;
+      font-size: 12px;
+    }
+
+    .status-completed {
+      color: #28a745 !important;
+      font-weight: 600;
+      padding: 4px 8px;
+      background: rgba(40, 167, 69, 0.1);
+      border-radius: 12px;
+      font-size: 12px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1050;
+      /* Higher than dropdown but standard modal z-index */
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+    }
+
+    .modal-content {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      margin: 5% auto;
+      padding: 0;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 600px;
+      max-height: 85vh;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      animation: modalSlideIn 0.3s ease-out;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    @keyframes modalSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .modal-header {
+      background: linear-gradient(135deg, #6C63FF 0%, #5A54D4 100%);
+      color: white;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 16px 16px 0 0;
+    }
+
+    .modal-header h2 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 600;
+      color: white;
+    }
+
+    .close {
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .close:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: rotate(90deg);
+    }
+
+    .modal-body {
+      padding: 25px;
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #333;
+      font-size: 14px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      box-sizing: border-box;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: #6C63FF;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+    }
+
+    .form-group textarea {
+      height: 100px;
+      resize: vertical;
+    }
+
+    .modal-footer {
+      margin-top: 20px;
+      text-align: right;
+      padding: 20px;
+      background: rgba(248, 249, 250, 0.5);
+      border-radius: 0 0 16px 16px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+      color: white;
+      box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(40, 167, 69, 0.4);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+      color: white;
+      margin-right: 10px;
+      box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+    }
+
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(108, 117, 125, 0.4);
+    }
+
+    .success-message {
+      color: #28a745;
+      text-align: center;
+      margin-top: 15px;
+      display: none;
+      font-weight: 500;
+    }
+
+    .error-message {
+      color: #dc3545;
+      text-align: center;
+      margin-top: 15px;
+      display: none;
+      font-weight: 500;
+    }
+
+    /* Voice Recorder Styles */
+    .voice-recorder-container {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn-recorder {
+      background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+    }
+
+    .btn-recorder:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 123, 255, 0.4);
+    }
+
+    .btn-recorder.recording {
+      background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.7;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+
+    /* File Upload Styles */
+    .file-input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      box-sizing: border-box;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .file-input:focus {
+      border-color: #6C63FF;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+    }
+
+    .file-info {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .file-upload-info {
+      color: #666;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .file-preview {
+      margin-top: 10px;
+      max-width: 100%;
+      max-height: 150px;
+      display: none;
+      border-radius: 8px;
+      border: 2px solid #e9ecef;
+    }
+
+    /* File Link Icon Styles */
+    .file-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(108, 99, 255, 0.1) 0%, rgba(90, 84, 212, 0.05) 100%);
+      color: #6C63FF;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      position: relative;
+      border: 2px solid rgba(108, 99, 255, 0.2);
+    }
+
+    .file-link:hover {
+      background: linear-gradient(135deg, rgba(108, 99, 255, 0.2) 0%, rgba(90, 84, 212, 0.1) 100%);
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3);
+    }
+
+    .file-link svg {
+      stroke: #6C63FF;
+      transition: stroke 0.2s ease;
+    }
+
+    .file-link:hover svg {
+      stroke: #5A54D4;
+    }
+
+    /* Tooltip styles */
+    .file-link .tooltip-text {
+      visibility: hidden;
+      width: 150px;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 8px;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .file-link:hover .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .file-link .tooltip-text::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: #333 transparent transparent transparent;
+    }
+
+    /* Remarks Icon Styles */
+    .remarks-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(108, 99, 255, 0.1) 0%, rgba(90, 84, 212, 0.05) 100%);
+      color: #6C63FF;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: 2px solid rgba(108, 99, 255, 0.2);
+    }
+
+    .remarks-icon:hover {
+      background: linear-gradient(135deg, rgba(108, 99, 255, 0.2) 0%, rgba(90, 84, 212, 0.1) 100%);
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3);
+    }
+
+    .remarks-icon svg {
+      stroke: currentColor;
+    }
+
+    .remarks-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      box-shadow: 0 2px 6px rgba(220, 53, 69, 0.3);
+    }
+
+    .remarks-modal-content {
+      max-width: 700px;
+      width: 90%;
+    }
+
+    .task-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    .task-id-container,
+    .task-assignee-container {
+      font-weight: 600;
+      color: #333;
+    }
+
+    .task-id-container span,
+    .task-assignee-container span {
+      font-weight: normal;
+      margin-left: 8px;
+      color: #666;
+    }
+
+    .remarks-timeline {
+      position: relative;
+      padding-left: 30px;
+    }
+
+    .remarks-timeline::before {
+      content: '';
+      position: absolute;
+      left: 12px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, #6C63FF, #5A54D4);
+    }
+
+    .remark-item {
+      position: relative;
+      margin-bottom: 25px;
+    }
+
+    .remark-item::before {
+      content: '';
+      position: absolute;
+      left: -30px;
+      top: 8px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background-color: white;
+      border: 3px solid #6c757d;
+      z-index: 1;
+    }
+
+    .remark-item.shifted-remark::before {
+      border-color: #dc3545;
+      background-color: #f8d7da;
+    }
+
+    .remark-item.mark-remark::before {
+      border-color: #0d6efd;
+      background-color: #cfe2ff;
+    }
+
+    .remark-date {
+      font-size: 12px;
+      color: #666;
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .remark-text {
+      display: block;
+      padding: 15px;
+      background: rgba(248, 249, 250, 0.8);
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border-left: 4px solid #6c757d;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .remark-item.shifted-remark .remark-text {
+      background: rgba(248, 215, 218, 0.8);
+      border-left-color: #dc3545;
+    }
+
+    .remark-item.mark-remark .remark-text {
+      background: rgba(207, 226, 255, 0.8);
+      border-left-color: #0d6efd;
+    }
+
+    .file-list {
+      list-style: none;
+      padding: 0;
+      margin: 15px 0;
+    }
+
+    .file-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 15px;
+      margin-bottom: 8px;
+      background: rgba(248, 249, 250, 0.8);
+      border-radius: 8px;
+      border: 1px solid #e9ecef;
+    }
+
+    .remove-file-btn {
+      background: linear-gradient(135deg, #ff4d4d 0%, #ff0000 100%);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      font-size: 14px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 6px rgba(255, 77, 77, 0.3);
+    }
+
+    .remove-file-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 10px rgba(255, 77, 77, 0.4);
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .nav-container {
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .nav-left {
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .nav-logo {
+        margin-right: 5px;
+      }
+
+      .nav-logo img {
+        height: 35px;
+        max-height: 35px;
+      }
+
+      .user-container {
+        width: 100%;
+        justify-content: flex-end;
+        margin-top: 10px;
+      }
+
+      .filters {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .filter-group {
+        width: 100%;
+        min-width: auto;
+      }
+
+      .filter-buttons {
+        width: 100%;
+        justify-content: space-between;
+        margin-left: 0;
+        margin-top: 15px;
+      }
+
+      .dashboard-tiles {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+
+      .tile {
+        min-width: auto;
+      }
+
+      .modal-content {
+        width: 95%;
+        margin: 2% auto;
+        max-height: 95vh;
+      }
+
+      th,
+      td {
+        padding: 10px 8px;
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 15px;
+      }
+
+      .nav-left {
+        width: 100%;
+        justify-content: flex-start;
+        margin-bottom: 10px;
+      }
+
+      .nav-logo img {
+        height: 30px;
+        max-height: 30px;
+      }
+
+      .filters,
+      .modal-content,
+      .table-container {
+        border-radius: 12px;
+      }
+
+      .nav-menu {
+        border-radius: 12px;
+      }
+
+      .modal-header {
+        border-radius: 12px 12px 0 0;
+      }
+
+      .modal-footer {
+        border-radius: 0 0 12px 12px;
+      }
+    }
+
+    .status-approval-waiting {
+      color: #17a2b8 !important;
+      font-weight: 600;
+      padding: 4px 8px;
+      background: rgba(23, 162, 184, 0.1);
+      border-radius: 12px;
+      font-size: 12px;
+    }
+
+    .status-need-help {
+      color: #fd7e14 !important;
+      font-weight: 600;
+      padding: 4px 8px;
+      background: rgba(253, 126, 20, 0.1);
+      border-radius: 12px;
+      font-size: 12px;
+    }
+
+    .status-escalated-to-bo {
+      color: #dc3545 !important;
+      font-weight: 600;
+      padding: 4px 8px;
+      background: rgba(220, 53, 69, 0.1);
+      border-radius: 12px;
+      font-size: 12px;
+    }
+
+    .status-without-plan {
+      color: #6c757d !important;
+      font-weight: 600;
+      padding: 4px 8px;
+      background: rgba(108, 117, 125, 0.1);
+      border-radius: 12px;
+      font-size: 12px;
+    }
+
+    .btn-edit {
+      background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+      color: white;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      box-shadow: 0 2px 6px rgba(40, 167, 69, 0.3);
+    }
+
+    .btn-edit:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(40, 167, 69, 0.4);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- Navigation Menu -->
+    <div class="nav-menu">
+      <div class="nav-container">
+        <div class="nav-left">
+          <div class="nav-logo">
+          </div>
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=index" class="nav-link">Delegation</a>
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=doer" class="nav-link">Doer Dashboard</a>
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=checklist" class="nav-link">Checklist</a>
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=Dashboard" class="nav-link">Dashboard</a>
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=Help" class="nav-link active">Help
+            (<span id="helpCount">0</span>)</a>
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=MISScoring" class="nav-link">MIS Scoring</a>
+          <a href="#" class="nav-link" onclick="openO2D(event)">O2D FMS</a>
+<script>
+  function openO2D(e) {
+    e.preventDefault();
+    var w = window.open('', '_blank');
+    if (w) w.document.write('<p style="font-family:sans-serif;padding:40px;color:#555">Opening O2D FMS...</p>');
+    google.script.run
+      .withSuccessHandler(function (url) {
+        if (w) w.location.href = url; else window.open(url, '_blank');
+      })
+      .withFailureHandler(function (err) {
+        if (w) w.close();
+        alert('O2D login failed: ' + (err && err.message ? err.message : err));
+      })
+      .getO2DSsoUrl(window.SESSION_TOKEN);
+  }
+</script>
+
+          <a href="https://script.google.com/a/macros/akashenterprise.in/s/AKfycbxBE6UOkg4kHkntskWCeraCe8l8sNW0tgQHevStpsfXZZhN97TNleAfZvrrRnfV7bpqhw/exec" class="nav-link" target="_blank">D2C FMS</a>          
+        </div>
+
+        <!-- User info and logout container -->
+        <div class="user-container">
+          <div class="user-info">
+            <div class="user-avatar" id="userAvatar"></div>
+            <span>
+              <span class="user-name" id="userName"></span>
+            <span class="user-role" id="userRole"></span>
+            </span>
+          </div>
+          <a href="<?= ScriptApp.getService().getUrl(); ?>?page=logout" class="logout-btn">Logout</a>
+<script>
+  (function () {
+    var t = '<?= getSessionTokenForPage() ?>';
+    var dev = '';
+    try { dev = localStorage.getItem('erp_device_id') || ''; } catch (e) {}
+    window.SESSION_TOKEN = t + '|' + dev;
+    if (!t) return;
+    document.querySelectorAll('a[href*="?page="]').forEach(function (a) {
+      var h = a.getAttribute('href');
+      if (!/[?&]t=/.test(h)) a.setAttribute('href', h + '&t=' + encodeURIComponent(t));
+    });
+  })();
+</script>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="filters">
+      <div class="filter-group">
+        <label>Filter by Name:</label>
+        <div class="searchable-dropdown" id="nameDropdown">
+          <input type="text" class="dropdown-input" placeholder="Search names...">
+          <div class="dropdown-list"></div>
+        </div>
+      </div>
+      <div class="filter-group">
+        <label>Filter by Task:</label>
+        <div class="searchable-dropdown" id="taskDropdown">
+          <input type="text" class="dropdown-input" placeholder="Search tasks...">
+          <div class="dropdown-list"></div>
+        </div>
+      </div>
+      <div class="filter-group">
+        <label>Filter by Project:</label>
+        <div class="searchable-dropdown" id="projectDropdown">
+          <input type="text" class="dropdown-input" placeholder="Search projects...">
+          <div class="dropdown-list"></div>
+        </div>
+      </div>
+      <div class="filter-group">
+        <label for="finalDateFilter">Filter by Final Date:</label>
+        <select id="finalDateFilter" onchange="applyFilters()">
+      <option value="">All Dates</option>
+      <option value="passed">Passed Final Date</option>
+      <option value="future">Future Final Date</option>
+      <option value="today">Due Today</option>
+    </select>
+      </div>
+      <!-- Button group container -->
+      <div class="filter-buttons">
+        <button class="reset-button" onclick="resetFilters()">Reset Filters</button>
+      </div>
+    </div>
+
+    <!-- Table Container -->
+    <div class="table-container">
+      <div class="table-wrapper">
+        <div id="loading" class="loading">Loading data...</div>
+        <table id="dataTable" style="display: none;">
+          <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>Task Id</th>
+              <th>Assigned By</th>
+              <th>Assigned To</th>
+              <th>Task Title</th>
+              <th>Task</th>
+              <th>First Date</th>
+              <th>Revision Date</th>
+              <th>Revision Count</th>
+              <th>Status</th>
+              <th>Reason</th>
+              <th>Voice Note</th>
+              <th>Document</th>
+              <th>Proof of Completion</th>
+              <th>Proof Required</th>
+              <th>Approval Required</th>
+              <th>Recurring</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+          </tbody>
+        </table>
+        <div id="noResults" class="no-results" style="display: none;">
+          No matching records found
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Remarks Modal -->
+<div id="customRemarkModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5);">
+  <div style="background-color:white; margin:15% auto; padding:20px; border-radius:8px; width:350px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+    <h4 style="margin-top:0;">Add Remark</h4>
+    <input type="hidden" id="targetTaskId">
+    <textarea id="remarkInput" style="width:100%; height:80px; margin:10px 0; padding:8px; border-radius:4px; border:1px solid #ccc; resize:none;" placeholder="Yahan remark likhein..."></textarea>
+    <div style="text-align:right;">
+      <button onclick="closeRemarkModal()" style="padding:6px 12px; margin-right:5px; cursor:pointer; background:#eee; border:1px solid #ccc; border-radius:4px;">Cancel</button>
+      <button onclick="submitRemark()" style="padding:6px 12px; cursor:pointer; background:#007bff; color:white; border:none; border-radius:4px;">Save Remark</button>
+    </div>
+  </div>
+</div>
+<div id="toast" style="visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 4px; padding: 16px; position: fixed; z-index: 10000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 14px; box-shadow: 0 4px 8px rgba(0,0,0,0.3);"></div>
+  <script>
+    // Make sure user data is loaded and displayed
+document.addEventListener('DOMContentLoaded', function() {
+  // User session is already included in the page by includeUserData()
+  const userData = <?!= includeUserData(); ?>;
+  
+  // Check if user data exists and user elements exist
+  if (userData) {
+    // Get the user info elements
+    const userNameElement = document.getElementById('userName');
+    const userRoleElement = document.getElementById('userRole');
+    const userAvatarElement = document.getElementById('userAvatar');
+    
+    // Update user info if elements exist
+    if (userNameElement) userNameElement.textContent = userData.name;
+    if (userRoleElement) userRoleElement.textContent = userData.role;
+    if (userAvatarElement) userAvatarElement.textContent = userData.name.charAt(0).toUpperCase();
+  }
+});
+
+window.onload = function() {
+  // Get user session data
+  const userData = <?!= includeUserData(); ?>;
+  
+  if (userData) {
+    // Display user info
+    const userNameElement = document.getElementById('userName');
+    const userRoleElement = document.getElementById('userRole');
+    const userAvatarElement = document.getElementById('userAvatar');
+    
+    if (userNameElement && userRoleElement && userAvatarElement) {
+      userNameElement.textContent = userData.name;
+      userRoleElement.textContent = userData.role;
+      
+      // Set avatar initial
+      const initialLetter = userData.name.charAt(0).toUpperCase();
+      userAvatarElement.textContent = initialLetter;
+    } else {
+      console.error('User info elements not found in DOM');
+    }
+    
+    // Load data
+    loadData();
+  } else {
+    // Redirect to login if no valid session
+    document.body.innerHTML = '<div style="padding:60px;text-align:center;font-family:Poppins,sans-serif;">Session expired. <a href="<?= ScriptApp.getService().getUrl(); ?>" target="_top">Login again</a></div>';
+  }
+};
+      
+      // Define loadData function for your existing functionality
+      function loadData() {
+        google.script.run
+          .withSuccessHandler(initializeData)
+          .withFailureHandler(showError)
+          .getData(window.SESSION_TOKEN);
+          
+        // Set up modal functionality
+        setupModal();
+
+        // Fetch doer names for the modal dropdown
+        populateDoerNames();
+      }
+
+let originalData = [];
+let currentFilters = {
+  name: '',
+  task: '',
+  project: '',
+  status: '',
+  finalDate: ''
+};
+
+      // Create searchable dropdown
+      class SearchableDropdown {
+        constructor(element, options, placeholder, onSelect) {
+          this.container = element;
+          this.options = options;
+          this.input = element.querySelector('.dropdown-input');
+          this.list = element.querySelector('.dropdown-list');
+          this.selectedValue = '';
+
+          this.input.placeholder = placeholder;
+
+          // Setup event listeners
+          this.input.addEventListener('input', () => this.handleSearch());
+          this.input.addEventListener('focus', () => this.showList());
+          
+          // Close dropdown when clicking outside
+          document.addEventListener('click', (e) => {
+            if (!this.container.contains(e.target)) {
+              this.hideList();
+            }
+          });
+
+          this.populateList(options);
+
+          // Store onSelect callback
+          this.onSelect = onSelect;
+        }
+
+        populateList(options) {
+          this.list.innerHTML = `<div class="dropdown-item" data-value="">All ${this.input.placeholder.split(' ')[2]}</div>`;
+          options.forEach(option => {
+            if (option) {
+              this.list.innerHTML += `<div class="dropdown-item" data-value="${option}">${option}</div>`;
+            }
+          });
+
+          // Add click handlers to items
+          this.list.querySelectorAll('.dropdown-item').forEach(item => {
+            item.addEventListener('click', () => {
+              const value = item.dataset.value;
+              this.selectItem(value);
+            });
+          });
+        }
+
+        handleSearch() {
+          const searchText = this.input.value.toLowerCase();
+          const items = this.list.querySelectorAll('.dropdown-item');
+          
+          items.forEach(item => {
+            const text = item.textContent.toLowerCase();
+            item.style.display = text.includes(searchText) ? 'block' : 'none';
+          });
+          
+          this.showList();
+        }
+
+        showList() {
+          this.list.classList.add('show');
+        }
+
+        hideList() {
+          this.list.classList.add('show');
+        }
+
+        hideList() {
+          this.list.classList.remove('show');
+        }
+
+        selectItem(value) {
+          this.selectedValue = value;
+          this.input.value = value;
+          this.hideList();
+          this.onSelect(value);
+        }
+
+        reset() {
+          this.selectedValue = '';
+          this.input.value = '';
+        }
+
+        getValue() {
+          return this.selectedValue;
+        }
+      }
+
+      function initializeData(data) {
+  if (typeof data === 'string') {
+    try { data = JSON.parse(data); } catch (e) { data = []; }
+  }
+  // 1. Safety Check: Agar data null ya undefined hai toh wahi ruk jaye
+  if (!data || !Array.isArray(data) || data.length === 0) {
+    console.warn("setupFilters: data is empty or invalid", data);
+    displayData([]);
+    return;
+  }
+
+  try {
+    originalData = data;
+    setupFilters(data);
+    displayData(data);
+  } catch (error) {
+    console.error("Error in initializeData logic:", error);
+  }
+}
+
+function populateDoerNames() {
+  // Get current user's role and name (still needed for other logic, but not for assignee filtering)
+  const userData = <?!= includeUserData(); ?>;
+  const currentUserName = userData ? userData.name : '';
+  const currentUserRole = userData ? userData.role : '';
+  
+  // Fetch doer names with roles from the Doer List sheet
+  google.script.run
+    .withSuccessHandler(function(doerData) {
+      const doerSelect = document.getElementById('doerName');
+      const assigneeSelect = document.getElementById('assigneeName');
+      
+      // Clear existing options except the first one for both dropdowns
+      while (doerSelect.options.length > 1) {
+        doerSelect.remove(1);
+      }
+      while (assigneeSelect.options.length > 1) {
+        assigneeSelect.remove(1);
+      }
+      
+      // Sort names alphabetically
+      doerData.sort((a, b) => a.name.localeCompare(b.name));
+      
+      // Add names to doer dropdown (always show all)
+      doerData.forEach(item => {
+        const doerOption = document.createElement('option');
+        doerOption.value = item.name;
+        doerOption.textContent = item.name;
+        doerSelect.appendChild(doerOption);
+      });
+      
+      // Always show all options in assignee dropdown (removed TL condition)
+      doerData.forEach(item => {
+        const assigneeOption = document.createElement('option');
+        assigneeOption.value = item.name;
+        assigneeOption.textContent = item.name;
+        assigneeSelect.appendChild(assigneeOption);
+      });
+      
+      // No auto-selection logic needed since we're not filtering by TL
+    })
+    .withFailureHandler(function(error) {
+      console.error('Error loading names:', error);
+      const errorMessage = document.getElementById('errorMessage');
+      errorMessage.textContent = 'Error loading names: ' + error;
+      errorMessage.style.display = 'block';
+    })
+    .getDoerNamesWithRoles(); // Call the new function
+}
+
+function setupFilters(data) {
+
+  // 🔒 HARD SAFETY CHECK
+  if (!Array.isArray(data) || data.length === 0) {
+    console.warn('setupFilters: data is empty or invalid', data);
+    return;
+  }
+
+  // Helper: safe value extractor
+  const getCol = (row, index) =>
+    row && row[index] !== null && row[index] !== undefined
+      ? String(row[index]).trim()
+      : '';
+
+  // Get unique values safely
+  const names = [...new Set(
+    data.map(row => getCol(row, 3)).filter(Boolean)
+  )].sort();
+
+  const tasks = [...new Set(
+    data.map(row => getCol(row, 5)).filter(Boolean)
+  )].sort();
+
+  const projects = [...new Set(
+    data.map(row => getCol(row, 4)).filter(Boolean)
+  )].sort();
+
+  const statuses = [...new Set(
+    data.map(row => getCol(row, 9)).filter(Boolean)
+  )].sort();
+
+  // 🔽 Name dropdown
+  const nameEl = document.getElementById('nameDropdown');
+  if (nameEl) {
+    window.nameDropdown = new SearchableDropdown(
+      nameEl,
+      names,
+      'Search names...',
+      value => {
+        currentFilters.name = value;
+        applyFilters();
+      }
+    );
+  }
+
+  // 🔽 Task dropdown
+  const taskEl = document.getElementById('taskDropdown');
+  if (taskEl) {
+    window.taskDropdown = new SearchableDropdown(
+      taskEl,
+      tasks,
+      'Search tasks...',
+      value => {
+        currentFilters.task = value;
+        applyFilters();
+      }
+    );
+  }
+
+  // 🔽 Project dropdown
+  const projectEl = document.getElementById('projectDropdown');
+  if (projectEl) {
+    window.projectDropdown = new SearchableDropdown(
+      projectEl,
+      projects,
+      'Search projects...',
+      value => {
+        currentFilters.project = value;
+        applyFilters();
+      }
+    );
+  }
+
+  // 🔽 Status dropdown (normal select)
+  const statusFilter = document.getElementById('statusFilter');
+  if (statusFilter) {
+    statusFilter.innerHTML = '<option value="">All</option>';
+    statuses.forEach(status => {
+      const option = document.createElement('option');
+      option.value = status;
+      option.textContent = status;
+      statusFilter.appendChild(option);
+    });
+  }
+}
+
+
+function applyFilters() {
+  currentFilters.finalDate = document.getElementById('finalDateFilter').value;
+
+  const filteredData = originalData.filter(row => {
+
+    // ✅ Sirf Need Help data hi allow karo
+    const status = row[9] ? row[9].toLowerCase().trim() : '';
+    if (status !== 'need help') return false;
+
+    const nameMatch = !currentFilters.name || row[3] === currentFilters.name; 
+    const taskMatch = !currentFilters.task || row[5] === currentFilters.task; 
+    const projectMatch = !currentFilters.project || row[4] === currentFilters.project; 
+    
+    // Final date filter
+    let finalDateMatch = true;
+    if (currentFilters.finalDate) {
+      const dueDateStr = row[6]; 
+      
+      if (dueDateStr && dueDateStr.trim()) {
+        const dueDate = parseDate(dueDateStr);
+        
+        if (dueDate) {
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          dueDate.setHours(0, 0, 0, 0);
+          
+          if (currentFilters.finalDate === 'passed') {
+            finalDateMatch = dueDate < today;
+          } else if (currentFilters.finalDate === 'future') {
+            finalDateMatch = dueDate > today;
+          } else if (currentFilters.finalDate === 'today') {
+            finalDateMatch = dueDate.getTime() === today.getTime();
+          }
+        } else {
+          finalDateMatch = false;
+        }
+      } else {
+        finalDateMatch = false;
+      }
+    }
+    
+    return nameMatch && taskMatch && projectMatch && finalDateMatch;
+  });
+
+  displayData(filteredData);
+}
+
+
+function parseDate(dateStr) {
+  if (!dateStr || !dateStr.trim()) {
+    return null;
+  }
+  
+  // Remove any extra whitespace
+  dateStr = dateStr.trim();
+  
+  // Handle DD/MM/YYYY format (with or without time)
+  if (dateStr.includes('/')) {
+    const dateTimeParts = dateStr.split(' ');
+    const datePart = dateTimeParts[0];
+    const dateParts = datePart.split('/');
+    
+    if (dateParts.length === 3) {
+      const day = parseInt(dateParts[0], 10);
+      const month = parseInt(dateParts[1], 10);
+      const year = parseInt(dateParts[2], 10);
+      
+      // Validate the date parts
+      if (day >= 1 && day <= 31 && month >= 1 && month <= 12 && year >= 1900) {
+        return new Date(year, month - 1, day);
+      }
+    }
+  }
+  
+  // Try parsing as a standard date
+  const date = new Date(dateStr);
+  return isNaN(date.getTime()) ? null : date;
+}
+
+function resetFilters() {
+  window.nameDropdown.reset();
+  window.taskDropdown.reset();
+  window.projectDropdown.reset();
+  document.getElementById('finalDateFilter').value = '';
+  
+  currentFilters = {
+    name: '',
+    task: '',
+    project: '',
+    finalDate: ''
+  };
+
+  displayData(originalData);
+}
+
+
+// Fixed setupRemarksModal function with proper event binding
+function setupRemarksModal() {
+  const modal = document.getElementById('remarksModal');
+  const closeBtn = modal.querySelector('.remarks-close');
+  
+  // Use the correct event listener for the close button
+  closeBtn.addEventListener('click', function() {
+    modal.style.display = 'none';
+  });
+  
+  // Close when clicking outside
+  window.addEventListener('click', function(event) {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+    }
+  });
+}
+
+// Ensure the modal is properly initialized when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+  setupRemarksModal();
+});
+
+// Alternative solution if the above doesn't work
+function makeCloseButtonWork() {
+  // Get the modal and close button
+  const modal = document.getElementById('remarksModal');
+  const closeBtn = document.querySelector('.remarks-close');
+  
+  // Add event listener directly
+  if (closeBtn) {
+    closeBtn.onclick = function() {
+      modal.style.display = 'none';
+    };
+  }
+  
+  // Also fix any z-index issues that might be preventing clicks
+  if (modal) {
+    modal.style.zIndex = '2000'; // Ensure it's above other elements
+    
+    // Make sure the close button is visible and clickable
+    if (closeBtn) {
+      closeBtn.style.cursor = 'pointer';
+      closeBtn.style.zIndex = '2001'; // Even higher z-index
+      closeBtn.style.position = 'relative'; // Ensure proper stacking context
+    }
+  }
+}
+
+// Call this function right after the modal is created or when window loads
+window.addEventListener('load', makeCloseButtonWork);
+
+// Function to open remarks modal and display remarks
+function showRemarks(taskId, assignee, remarks) {
+  const modal = document.getElementById('remarksModal');
+  const remarksTimeline = document.getElementById('remarksTimeline');
+  
+  // Set task info
+  document.getElementById('remarkTaskId').textContent = taskId;
+  document.getElementById('remarkAssignee').textContent = assignee;
+  
+  // Clear existing remarks
+  remarksTimeline.innerHTML = '';
+  
+  // Parse and display remarks
+  const remarksList = parseRemarksToArray(remarks);
+  
+  if (remarksList.length === 0) {
+    // Show a message if no remarks
+    const noRemarks = document.createElement('div');
+    noRemarks.className = 'no-remarks';
+    noRemarks.textContent = 'No remarks available for this task.';
+    remarksTimeline.appendChild(noRemarks);
+  } else {
+    // Add each remark to the timeline
+    remarksList.forEach(remark => {
+      const remarkItem = document.createElement('div');
+      remarkItem.className = 'remark-item';
+      
+      // Add special class based on content
+      if (remark.text.includes('Shifted')) {
+        remarkItem.classList.add('shifted-remark');
+      } else if (remark.text.includes('mark') || remark.text.includes('remark')) {
+        remarkItem.classList.add('mark-remark');
+      }
+      
+      const dateSpan = document.createElement('span');
+      dateSpan.className = 'remark-date';
+      dateSpan.textContent = remark.date;
+      
+      const textSpan = document.createElement('span');
+      textSpan.className = 'remark-text';
+      textSpan.textContent = remark.text;
+      
+      remarkItem.appendChild(dateSpan);
+      remarkItem.appendChild(textSpan);
+      
+      remarksTimeline.appendChild(remarkItem);
+    });
+  }
+  
+  // Show modal
+  modal.style.display = 'block';
+}
+
+// Function to parse remarks string into an array of objects
+function parseRemarksToArray(remarks) {
+  if (!remarks || typeof remarks !== 'string' || !remarks.trim()) {
+    return [];
+  }
+  
+  // Split by new lines first
+  let remarkLines = remarks.split(/\n/).filter(line => line.trim());
+  
+  // If no newlines found but there are multiple date patterns, split by dates
+  if (remarkLines.length === 1 && (remarks.match(/\d+\/\d+\/\d+|\d+\/\d+\/\d+,/g) || []).length > 1) {
+    // Complex regex to split by date patterns
+    remarkLines = remarks.split(/(?=\d{1,2}\/\d{1,2}\/\d{4}|\d{1,2}\/\d{2}\/\d{4},)/).filter(line => line.trim());
+  }
+  
+  // Process each remark
+  return remarkLines.map(remark => {
+    // Try to extract date and remark text
+    const dateMatch = remark.match(/(\d{1,2}\/\d{1,2}\/\d{4}(?:,?\s+\d{1,2}[:.]\d{2}(?:[:.]\d{2})?\s*(?:AM|PM)?)?)\s*-\s*(.*)/i);
+    
+    if (dateMatch && dateMatch.length > 2) {
+      return {
+        date: dateMatch[1].trim(),
+        text: dateMatch[2].trim()
+      };
+    } else {
+      // If no date pattern is found
+      return {
+        date: '',
+        text: remark.trim()
+      };
+    }
+  });
+}
+
+
+function displayData(data) {
+  const tableBody = document.getElementById('tableBody');
+  const loadingDiv = document.getElementById('loading');
+  const dataTable = document.getElementById('dataTable');
+  const noResults = document.getElementById('noResults');
+
+  if (!Array.isArray(data) || data.length === 0) {
+    tableBody.innerHTML = '';
+    if (dataTable) dataTable.style.display = 'none';
+    if (noResults) noResults.style.display = 'block';
+    if (loadingDiv) loadingDiv.style.display = 'none';
+    return;
+  }
+
+  const userNameElement = document.getElementById('userName');
+  const userName = userNameElement ? userNameElement.textContent.trim() : '';
+  
+  tableBody.innerHTML = '';
+// Get current user role
+const userRoleElement = document.getElementById('userRole');
+const userRole = userRoleElement ? userRoleElement.textContent.trim().toLowerCase() : '';
+
+data = data.filter(row => {
+  const status = row[9] ? row[9].toLowerCase().trim() : '';
+  const assignedTo = row[3] ? row[3].toLowerCase().trim() : '';
+  const currentUser = userName.toLowerCase();
+
+  // ✅ Only Need Help status
+  if (status !== 'need help') return false;
+
+  // ✅ If Admin → show all Need Help
+  if (userRole === 'admin') return true;
+
+  // ✅ If Doer → show only their own Need Help tasks
+  return assignedTo === currentUser;
+});
+
+  data.forEach(row => {
+      // if (index >= 17) return;
+    const tr = document.createElement('tr');
+    
+    // Status color mapping (Column J - Index 9)
+    const status = row[9] ? row[9].toLowerCase().trim() : '';
+    let statusClass = '';
+    if (status === 'pending') statusClass = 'status-pending';
+    else if (status === 'completed') statusClass = 'status-completed';
+    else if (status === 'approval waiting') statusClass = 'status-approval-waiting';
+    else if (status === 'need help') statusClass = 'status-need-help';
+    else if (status === 'escalated to b.o') statusClass = 'status-escalated-to-bo';
+    else if (status === 'without plan') statusClass = 'status-without-plan';
+    else if (status === 'completed with delay') statusClass = 'status-completed-with-delay';
+
+    // Loop through each cell based on the new 21-column structure
+    row.forEach((cell, index) => {
+      if (index > 16) return;
+      const td = document.createElement('td');
+      
+      // Index 10: Reason (Remark Icon)
+      if (index === 10) {
+        if (cell) {
+          const remarkIcon = document.createElement('div');
+          remarkIcon.className = 'remarks-icon';
+          remarkIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>';
+          const remarkCount = (typeof parseRemarksToArray === 'function') ? (parseRemarksToArray(cell) || []).length : 0;
+          if (remarkCount > 1) {
+            remarkIcon.innerHTML += `<span class="remarks-count">${remarkCount}</span>`;
+          }
+          remarkIcon.onclick = () => showRemarks(row[1], row[2], cell);
+          td.appendChild(remarkIcon);
+        }
+      }
+      // Index 11: Voice Note
+      else if (index === 11) {
+        if (cell && isValidURL(cell)) {
+          td.innerHTML = `<a href="${cell}" target="_blank" class="file-link" title="Voice Note">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path></svg>
+          </a>`;
+        }
+      }
+      // Index 12 & 13: Document & Proof of Completion
+      else if (index === 12 || index === 13) {
+        if (cell) {
+          const links = cell.split(',').map(url => url.trim()).filter(url => isValidURL(url));
+          const container = document.createElement('div');
+          container.className = 'document-icons-container';
+          links.forEach(url => {
+            container.innerHTML += `<a href="${url}" target="_blank" class="file-link">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+            </a>`;
+          });
+          td.appendChild(container);
+        }
+      }
+
+// Index 8: Revision Count
+else if (index === 8) {
+  td.textContent = cell || '0';  // Show the actual count, default to 0 if empty
+}      
+      // Regular Data: Index 14 (Proof Req), 15 (Approval Req), 16 (Recurring), etc.
+      else {
+        td.textContent = cell || '';
+      }
+
+      // Status Column Style (Index 9)
+      if (index === 9 && statusClass) {
+        td.classList.add(statusClass);
+      }
+      
+      tr.appendChild(td);
+    });
+// row.forEach loop ke khatam hone ke baad
+    const actionTd = document.createElement('td');
+
+    // ✅ Only Admin can see the Edit Icon
+    if (userRole === 'admin') {
+      actionTd.innerHTML = `
+        <div style="cursor:pointer; color:#007bff;" onclick="openEditModal('${row[1]}')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+          </svg>
+        </div>`;
+    }
+    
+    tr.appendChild(actionTd);
+    tableBody.appendChild(tr);
+  });
+
+  if (dataTable) dataTable.style.display = 'table';
+  if (noResults) noResults.style.display = 'none';
+  if (loadingDiv) loadingDiv.style.display = 'none';
+  const helpCountElement = document.getElementById('helpCount');
+if (helpCountElement) {
+  helpCountElement.textContent = data.length;
+}
+
+}
+
+function openEditModal(taskId) {
+  document.getElementById('targetTaskId').value = taskId;
+  document.getElementById('remarkInput').value = '';
+  document.getElementById('customRemarkModal').style.display = 'block';
+}
+
+function closeRemarkModal() {
+  document.getElementById('customRemarkModal').style.display = 'none';
+}
+
+function submitRemark() {
+  const taskId = document.getElementById('targetTaskId').value;
+  const remark = document.getElementById('remarkInput').value;
+  
+  // Remark check with Toast
+  if (!remark.trim()) {
+    showToast("Remark dalna jaruri hai!", true);
+    return;
+  }
+
+  const saveBtn = document.querySelector("#customRemarkModal button[onclick='submitRemark()']");
+  saveBtn.disabled = true;
+  saveBtn.textContent = "Saving...";
+
+  google.script.run
+    .withSuccessHandler(() => {
+      saveBtn.disabled = false;
+      saveBtn.textContent = "Save Remark";
+      closeRemarkModal();
+      
+      // ✅ Alert ki jagah Toast
+      showToast("Task Updated Successfully!"); 
+      
+      // Table refresh karne ke liye agar aapka koi function hai (e.g. loadData) toh yahan call karein:
+      // if (typeof loadData === "function") loadData();
+    })
+    .withFailureHandler((err) => {
+      showToast("Error: " + err, true);
+      saveBtn.disabled = false;
+      saveBtn.textContent = "Save Remark";
+    })
+    .saveAdminAction(taskId, remark); 
+}
+function showToast(message, isError = false) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.style.backgroundColor = isError ? "#d9534f" : "#333"; // Error ke liye red
+  toast.style.visibility = "visible";
+  
+  setTimeout(() => {
+    toast.style.visibility = "hidden";
+  }, 3000); // 3 seconds baad gayab ho jayega
+}
+
+// Helper function to check if string is a valid URL
+function isValidURL(str) {
+  try {
+    new URL(str);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+// Helper function to extract filename from URL
+function getFilenameFromURL(url) {
+  try {
+    // Try to get filename from URL parameters
+    const urlObj = new URL(url);
+    if (url.includes('drive.google.com')) {
+      // Special handling for Google Drive links
+      return 'Google Drive File';
+    } else {
+      // For other links, try to get the last part of the path
+      const pathParts = urlObj.pathname.split('/');
+      return pathParts[pathParts.length - 1] || 'File';
+    }
+  } catch (e) {
+    return 'File';
+  }
+}
+
+      function showError(error) {
+        const loadingDiv = document.getElementById('loading');
+        loadingDiv.innerHTML = 'Error loading data: ' + error;
+        loadingDiv.style.color = 'red';
+      }
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// Function to open edit task modal
+function openEditTaskModal(rowData) {
+  // Get or create edit modal
+  let editModal = document.getElementById('editTaskModal');
+  
+  if (!editModal) {
+    // Create the edit modal if it doesn't exist
+    editModal = document.createElement('div');
+    editModal.id = 'editTaskModal';
+    editModal.className = 'modal';
+    
+    editModal.innerHTML = `
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Edit Task</h2>
+          <span class="close" id="closeEditTaskModal">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Task ID:</label>
+            <input type="text" id="editTaskId" disabled style="background: #f5f5f5;">
+          </div>
+          <div class="form-group">
+            <label for="editAssigneeName">Assigned By</label>
+            <select id="editAssigneeName" required>
+              <option value="">Select an assignee</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="editDoerName">Assigned To</label>
+            <select id="editDoerName" required>
+              <option value="">Select a doer</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="editProjectName">Task Title:</label>
+            <input type="text" id="editProjectName" required>
+          </div>
+          <div class="form-group">
+            <label for="editTaskDescription">Task Description:</label>
+            <textarea id="editTaskDescription" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="editDueDate">Due Date:</label>
+            <input type="datetime-local" id="editDueDate">
+          </div>
+          <div class="form-group">
+            <label>Voice Note:</label>
+            <div class="voice-recorder-container">
+              <button type="button" id="editRecordButton" class="btn btn-recorder">
+                <span id="editRecordIcon">🎤</span> <span id="editRecordText">Record New Voice Note</span>
+              </button>
+              <span id="editRecordingTime" style="margin-left: 10px; display: none;">00:00</span>
+              <audio id="editAudioPlayback" controls style="margin-top: 10px; width: 100%; display: none;"></audio>
+              <div id="currentVoiceNote" style="margin-top: 10px; font-size: 12px; color: #666;"></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="editEvidenceRequired">Evidence (Proof) Upload Required:</label>
+            <select id="editEvidenceRequired" required>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+          <div class="form-group">
+          <label for="editapprovalRequired">Approval Required:</label>
+          <select id="editapprovalRequired" required>
+            <option value="Yes">Yes</option>
+            <option value="No" selected>No</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="editisRecurring">Recurring:</label>
+          <select id="editisRecurring" required>
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+          </select>
+        </div>
+          <div id="editSuccessMessage" class="success-message">Task updated successfully!</div>
+          <div id="editErrorMessage" class="error-message">Error updating task. Please try again.</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancelEditBtn">Cancel</button>
+          <button type="button" class="btn btn-primary" id="submitEditBtn">Update Task</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(editModal);
+    setupEditModal();
+  }
+  
+  // Populate the modal with current task data
+  populateEditModal(rowData);
+  
+  // Show the modal
+  editModal.style.display = 'block';
+}
+
+// Setup edit modal event listeners
+function setupEditModal() {
+  const editModal = document.getElementById('editTaskModal');
+  
+  // Close button
+  document.getElementById('closeEditTaskModal').onclick = function() {
+    resetEditForm();
+    editModal.style.display = 'none';
+    resetEditRecording();
+  };
+  
+  // Cancel button
+  document.getElementById('cancelEditBtn').onclick = function() {
+    resetEditForm();
+    editModal.style.display = 'none';
+    resetEditRecording();
+  };
+  
+  // Submit button
+  document.getElementById('submitEditBtn').onclick = function() {
+    submitEditTask();
+  };
+  
+  // Voice recording setup
+  setupEditVoiceRecording();
+  
+  // Close when clicking outside
+  window.onclick = function(event) {
+    if (event.target === editModal) {
+      resetEditForm();
+      editModal.style.display = 'none';
+      resetEditRecording();
+    }
+  };
+}
+
+
+// Function to reset edit form to default state
+function resetEditForm() {
+  // Reset all form fields
+  document.getElementById('editTaskId').value = '';
+  document.getElementById('editProjectName').value = '';
+  document.getElementById('editTaskDescription').value = '';
+  document.getElementById('editDueDate').value = '';
+  document.getElementById('editEvidenceRequired').value = 'Yes';
+  
+  // Reset dropdowns to default "Select..." options
+  const assigneeSelect = document.getElementById('editAssigneeName');
+  const doerSelect = document.getElementById('editDoerName');
+  
+  if (assigneeSelect) {
+    assigneeSelect.selectedIndex = 0; // Reset to first option ("Select an assignee")
+  }
+  
+  if (doerSelect) {
+    doerSelect.selectedIndex = 0; // Reset to first option ("Select a doer")
+  }
+  
+  // Reset voice note info
+  const currentVoiceNote = document.getElementById('currentVoiceNote');
+  if (currentVoiceNote) {
+    currentVoiceNote.innerHTML = '';
+  }
+  
+  // Hide any success/error messages
+  const successMessage = document.getElementById('editSuccessMessage');
+  const errorMessage = document.getElementById('editErrorMessage');
+  
+  if (successMessage) {
+    successMessage.style.display = 'none';
+  }
+  
+  if (errorMessage) {
+    errorMessage.style.display = 'none';
+  }
+  
+  // Clear any stored original data
+  const editModal = document.getElementById('editTaskModal');
+  if (editModal) {
+    delete editModal.dataset.originalData;
+  }
+  
+  console.log('Edit form reset to default state');
+}
+
+// Populate edit modal with current data
+function populateEditModal(rowData) {
+  const editModal = document.getElementById('editTaskModal');
+  
+  // Basic fields mapping
+  document.getElementById('editTaskId').value = rowData[1]; // Task ID (Col B)
+  document.getElementById('editProjectName').value = rowData[4] || ''; // Project Name (Col E)
+  document.getElementById('editTaskDescription').value = rowData[5] || ''; // Task (Col F)
+  
+  // Dropdowns values (Including new ones)
+  document.getElementById('editEvidenceRequired').value = rowData[14] || 'No'; // Proof Required (Col O)
+  document.getElementById('editapprovalRequired').value = rowData[15] || 'No'; // Approval Required (Col P)
+  document.getElementById('editisRecurring').value = rowData[16] || 'No';      // Recurring (Col Q)
+  
+  // Handle due date
+  if (rowData[6]) {
+    const dueDateFormatted = convertToDatetimeLocal(rowData[6]);
+    document.getElementById('editDueDate').value = dueDateFormatted;
+  }
+  
+  // Voice note handling
+  const currentVoiceNote = document.getElementById('currentVoiceNote');
+  if (rowData[11]) {
+    currentVoiceNote.innerHTML = `<strong>Current Voice Note:</strong> <a href="${rowData[11]}" target="_blank">Listen</a><br><small>Record new to replace, or leave blank to keep.</small>`;
+  } else {
+    currentVoiceNote.innerHTML = '<small>No current voice note.</small>';
+  }
+  
+  // Original data store karna for reference
+  if (editModal) {
+    editModal.dataset.originalData = JSON.stringify(rowData);
+  }
+  
+  // Populate dropdowns (Assigned By and Assigned To)
+  populateEditDropdownsWithValues(rowData[2], rowData[3]); 
+}
+
+// Convert DD/MM/YYYY HH:MM:SS to YYYY-MM-DDTHH:MM format for datetime-local input
+function convertToDatetimeLocal(dateStr) {
+  if (!dateStr) return '';
+  
+  try {
+    // Parse DD/MM/YYYY HH:MM:SS format
+    const parts = dateStr.split(' ');
+    const datePart = parts[0];
+    const timePart = parts[1] || '00:00:00';
+    
+    const dateParts = datePart.split('/');
+    const timeParts = timePart.split(':');
+    
+    if (dateParts.length === 3 && timeParts.length >= 2) {
+      const day = dateParts[0].padStart(2, '0');
+      const month = dateParts[1].padStart(2, '0');
+      const year = dateParts[2];
+      const hour = timeParts[0].padStart(2, '0');
+      const minute = timeParts[1].padStart(2, '0');
+      
+      return `${year}-${month}-${day}T${hour}:${minute}`;
+    }
+  } catch (error) {
+    console.error('Error converting date:', error);
+  }
+  
+  return '';
+}
+
+// Original function for cases where we don't need to set specific values
+function populateEditDropdowns() {
+  populateEditDropdownsWithValues(null, null);
+}
+
+
+// Populate edit modal dropdowns with callback to set values
+function populateEditDropdownsWithValues(assigneeValue, doerValue) {
+  google.script.run
+    .withSuccessHandler(function(doerData) {
+      const assigneeSelect = document.getElementById('editAssigneeName');
+      const doerSelect = document.getElementById('editDoerName');
+      
+      // Clear existing options
+      while (assigneeSelect.options.length > 1) assigneeSelect.remove(1);
+      while (doerSelect.options.length > 1) doerSelect.remove(1);
+      
+      // Sort and populate
+      doerData.sort((a, b) => a.name.localeCompare(b.name));
+      
+      doerData.forEach(item => {
+        // Assignee dropdown
+        const assigneeOption = document.createElement('option');
+        assigneeOption.value = item.name;
+        assigneeOption.textContent = item.name;
+        assigneeSelect.appendChild(assigneeOption);
+        
+        // Doer dropdown
+        const doerOption = document.createElement('option');
+        doerOption.value = item.name;
+        doerOption.textContent = item.name;
+        doerSelect.appendChild(doerOption);
+      });
+      
+      // NOW set the values after options are populated
+      if (assigneeValue) {
+        assigneeSelect.value = assigneeValue;
+      }
+      if (doerValue) {
+        doerSelect.value = doerValue;
+      }
+      
+      // Debug log to verify values are set
+      console.log('Assignee set to:', assigneeSelect.value);
+      console.log('Doer set to:', doerSelect.value);
+    })
+    .withFailureHandler(function(error) {
+      console.error('Error loading names for edit:', error);
+    })
+    .getDoerNamesWithRoles();
+}
+
+// Submit edited task
+function submitEditTask() {
+  const taskId = document.getElementById('editTaskId').value;
+  const assigneeName = document.getElementById('editAssigneeName').value;
+  const doerName = document.getElementById('editDoerName').value;
+  const projectName = document.getElementById('editProjectName').value;
+  const taskDescription = document.getElementById('editTaskDescription').value;
+  const dueDate = document.getElementById('editDueDate').value;
+  const evidenceRequired = document.getElementById('editEvidenceRequired').value;
+  
+  // YE DO FIELDS ADD KIYE HAIN
+  const approvalRequired = document.getElementById('editapprovalRequired').value;
+  const recurring = document.getElementById('editisRecurring').value;
+  
+  // Validation mein bhi add kar dein (Optional)
+  if (!assigneeName || !doerName || !projectName || !taskDescription || !evidenceRequired || !approvalRequired || !recurring) {
+    document.getElementById('editErrorMessage').textContent = 'Please fill in all required fields';
+    document.getElementById('editErrorMessage').style.display = 'block';
+    return;
+  }
+  
+  const submitBtn = document.getElementById('submitEditBtn');
+  const originalBtnText = submitBtn.textContent;
+  submitBtn.textContent = 'Updating...';
+  submitBtn.disabled = true;
+  
+  // Format date
+  const formattedDate = dueDate ? formatDate(dueDate) : '';
+  
+  // UpdateData object mein in dono ko shamil karna zaroori hai
+  const updateData = {
+    taskId: taskId,
+    assigneeName: assigneeName,
+    doerName: doerName,
+    projectName: projectName,
+    taskDescription: taskDescription,
+    dueDate: formattedDate,
+    evidenceRequired: evidenceRequired,
+    approvalRequired: approvalRequired, // Column P ke liye
+    recurring: recurring,               // Column Q ke liye
+    newVoiceNote: window.editAudioBlob || null
+  };
+  
+  // Submit update
+  google.script.run
+    .withSuccessHandler(function(response) {
+      document.getElementById('editSuccessMessage').style.display = 'block';
+      document.getElementById('editErrorMessage').style.display = 'none';
+      
+      submitBtn.textContent = originalBtnText;
+      submitBtn.disabled = false;
+      
+      setTimeout(function() {
+        if (typeof resetEditForm === "function") resetEditForm(); 
+        document.getElementById('editTaskModal').style.display = 'none';
+        
+        // Refresh data
+        google.script.run
+          .withSuccessHandler(initializeData)
+          .withFailureHandler(function(err){ console.error(err); })
+          .getData(window.SESSION_TOKEN);
+      }, 1500);
+    })
+    .withFailureHandler(function(error) {
+      document.getElementById('editErrorMessage').textContent = 'Error updating task: ' + error;
+      document.getElementById('editErrorMessage').style.display = 'block';
+      
+      submitBtn.textContent = originalBtnText;
+      submitBtn.disabled = false;
+    })
+    .updateTask(updateData);
+}
+
+// Voice recording for edit modal
+let editMediaRecorder;
+let editAudioChunks = [];
+let editRecordingStartTime;
+let editRecordingTimer;
+
+function setupEditVoiceRecording() {
+  const recordButton = document.getElementById('editRecordButton');
+  const recordIcon = document.getElementById('editRecordIcon');
+  const recordText = document.getElementById('editRecordText');
+  const recordingTime = document.getElementById('editRecordingTime');
+  const audioPlayback = document.getElementById('editAudioPlayback');
+  
+  recordButton.onclick = function() {
+    if (editMediaRecorder && editMediaRecorder.state === 'recording') {
+      stopEditRecording();
+    } else {
+      startEditRecording();
+    }
+  };
+  
+  function startEditRecording() {
+    editAudioChunks = [];
+    audioPlayback.style.display = 'none';
+    
+    navigator.mediaDevices.getUserMedia({ audio: true })
+      .then(stream => {
+        editMediaRecorder = new MediaRecorder(stream);
+        
+        editMediaRecorder.ondataavailable = (event) => {
+          editAudioChunks.push(event.data);
+        };
+        
+        editMediaRecorder.onstop = () => {
+          window.editAudioBlob = new Blob(editAudioChunks, { type: 'audio/wav' });
+          const audioUrl = URL.createObjectURL(window.editAudioBlob);
+          audioPlayback.src = audioUrl;
+          audioPlayback.style.display = 'block';
+          
+          stream.getTracks().forEach(track => track.stop());
+        };
+        
+        editMediaRecorder.start();
+        recordButton.classList.add('recording');
+        recordIcon.textContent = '⏹️';
+        recordText.textContent = 'Stop Recording';
+        
+        editRecordingStartTime = Date.now();
+        recordingTime.style.display = 'inline';
+        updateEditRecordingTimer();
+      });
+  }
+  
+  function stopEditRecording() {
+    if (editMediaRecorder && editMediaRecorder.state === 'recording') {
+      editMediaRecorder.stop();
+      recordButton.classList.remove('recording');
+      recordIcon.textContent = '🎤';
+      recordText.textContent = 'Record Again';
+      
+      clearTimeout(editRecordingTimer);
+    }
+  }
+  
+  function updateEditRecordingTimer() {
+    const elapsedSeconds = Math.floor((Date.now() - editRecordingStartTime) / 1000);
+    const minutes = Math.floor(elapsedSeconds / 60).toString().padStart(2, '0');
+    const seconds = (elapsedSeconds % 60).toString().padStart(2, '0');
+    recordingTime.textContent = `${minutes}:${seconds}`;
+    
+    editRecordingTimer = setTimeout(updateEditRecordingTimer, 1000);
+  }
+}
+
+function resetEditRecording() {
+  if (editMediaRecorder && editMediaRecorder.state === 'recording') {
+    editMediaRecorder.stop();
+  }
+  
+  const recordButton = document.getElementById('editRecordButton');
+  const recordIcon = document.getElementById('editRecordIcon');
+  const recordText = document.getElementById('editRecordText');
+  const recordingTime = document.getElementById('editRecordingTime');
+  const audioPlayback = document.getElementById('editAudioPlayback');
+  
+  if (recordButton) {
+    recordButton.classList.remove('recording');
+    recordIcon.textContent = '🎤';
+    recordText.textContent = 'Record New Voice Note';
+    recordingTime.style.display = 'none';
+    audioPlayback.style.display = 'none';
+  }
+  
+  window.editAudioBlob = null;
+  clearTimeout(editRecordingTimer);
+}    
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      
+function setupModal() {
+  const modal = document.getElementById('taskModal');
+  const openModalBtn = document.getElementById('openModalBtn');
+  const closeBtn = document.querySelector('.close');
+  const cancelBtn = document.getElementById('cancelBtn');
+  const taskForm = document.getElementById('taskForm');
+  const successMessage = document.getElementById('successMessage');
+  const errorMessage = document.getElementById('errorMessage');
+  
+  // Voice recorder elements
+  const recordButton = document.getElementById('recordButton');
+  const recordIcon = document.getElementById('recordIcon');
+  const recordText = document.getElementById('recordText');
+  const recordingTime = document.getElementById('recordingTime');
+  const audioPlayback = document.getElementById('audioPlayback');
+  
+  // File upload elements - update to support multiple files
+  const fileAttachment = document.getElementById('fileAttachment');
+  const fileInfo = document.getElementById('fileInfo');
+  
+  // Set minimum date to today for the due date input
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('dueDate').min = today;
+  
+  // Voice recording variables
+  let mediaRecorder;
+  let audioChunks = [];
+  let recordingStartTime;
+  let recordingTimer;
+  let audioBlob;
+  
+  // Track selected files
+  let selectedFiles = [];
+  
+  // Open modal
+  openModalBtn.onclick = function() {
+    modal.style.display = 'block';
+    successMessage.style.display = 'none';
+    errorMessage.style.display = 'none';
+    resetRecording();
+    selectedFiles = [];
+    fileInfo.innerHTML = '';
+  }
+  
+  // Close modal
+  closeBtn.onclick = function() {
+    modal.style.display = 'none';
+    resetRecording();
+  }
+  
+  cancelBtn.onclick = function() {
+    modal.style.display = 'none';
+    resetRecording();
+  }
+  
+  // Close modal when clicking outside
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = 'none';
+      resetRecording();
+    }
+  }
+  
+  // Voice recording functionality
+  recordButton.onclick = function() {
+    if (mediaRecorder && mediaRecorder.state === 'recording') {
+      stopRecording();
+    } else {
+      startRecording();
+    }
+  }
+  
+  function startRecording() {
+    audioChunks = [];
+    audioPlayback.style.display = 'none';
+    
+    // Request microphone access
+    navigator.mediaDevices.getUserMedia({ audio: true })
+      .then(stream => {
+        mediaRecorder = new MediaRecorder(stream);
+        
+        mediaRecorder.ondataavailable = (event) => {
+          audioChunks.push(event.data);
+        };
+        
+        mediaRecorder.onstop = () => {
+          // Create audio blob and set to audio element
+          audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+          const audioUrl = URL.createObjectURL(audioBlob);
+          audioPlayback.src = audioUrl;
+          audioPlayback.style.display = 'block';
+          
+          // Stop all tracks from the stream to release microphone
+          stream.getTracks().forEach(track => track.stop());
+        };
+        
+        // Start recording
+        mediaRecorder.start();
+        recordButton.classList.add('recording');
+        recordIcon.textContent = '⏹️';
+        recordText.textContent = 'Stop Recording';
+        
+        // Start timer
+        recordingStartTime = Date.now();
+        recordingTime.style.display = 'inline';
+        updateRecordingTimer();
+      })
+      .catch(error => {
+        console.error('Error accessing microphone:', error);
+        errorMessage.textContent = 'Error accessing microphone: ' + error.message;
+        errorMessage.style.display = 'block';
+      });
+  }
+  
+  function stopRecording() {
+    if (mediaRecorder && mediaRecorder.state === 'recording') {
+      mediaRecorder.stop();
+      recordButton.classList.remove('recording');
+      recordIcon.textContent = '🎤';
+      recordText.textContent = 'Record Again';
+      
+      // Stop timer
+      clearTimeout(recordingTimer);
+    }
+  }
+  
+  function resetRecording() {
+    stopRecording();
+    audioPlayback.style.display = 'none';
+    audioPlayback.src = '';
+    recordingTime.style.display = 'none';
+    recordButton.classList.remove('recording');
+    recordIcon.textContent = '🎤';
+    recordText.textContent = 'Start Recording';
+    audioBlob = null;
+  }
+  
+  function updateRecordingTimer() {
+    const elapsedSeconds = Math.floor((Date.now() - recordingStartTime) / 1000);
+    const minutes = Math.floor(elapsedSeconds / 60).toString().padStart(2, '0');
+    const seconds = (elapsedSeconds % 60).toString().padStart(2, '0');
+    recordingTime.textContent = `${minutes}:${seconds}`;
+    
+    recordingTimer = setTimeout(updateRecordingTimer, 1000);
+  }
+  
+  // Update file upload to handle multiple files
+  fileAttachment.setAttribute('multiple', 'true'); // Enable multiple file selection
+  
+  fileAttachment.onchange = function() {
+    const files = fileAttachment.files;
+    fileInfo.innerHTML = ''; // Clear previous file info
+    
+    if (files.length > 0) {
+      selectedFiles = Array.from(files).map(file => ({
+        file: file,
+        name: file.name,
+        size: file.size,
+        type: file.type
+      }));
+      
+      // Create file list display
+      const fileList = document.createElement('ul');
+      fileList.className = 'file-list';
+      
+      selectedFiles.forEach((fileObj, index) => {
+        const listItem = document.createElement('li');
+        listItem.className = 'file-item';
+        
+        const fileDetails = document.createElement('span');
+        fileDetails.textContent = `${fileObj.name} (${formatFileSize(fileObj.size)})`;
+        
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'remove-file-btn';
+        removeBtn.textContent = '×';
+        removeBtn.onclick = function() {
+          // Remove file from selectedFiles array
+          selectedFiles.splice(index, 1);
+          listItem.remove();
+          
+          // If all files removed, clear the input
+          if (selectedFiles.length === 0) {
+            fileAttachment.value = '';
+          }
+        };
+        
+        listItem.appendChild(fileDetails);
+        listItem.appendChild(removeBtn);
+        fileList.appendChild(listItem);
+      });
+      
+      fileInfo.appendChild(fileList);
+    } else {
+      fileInfo.textContent = '';
+      selectedFiles = [];
+    }
+  }
+  
+  function formatFileSize(bytes) {
+    if (bytes < 1024) return bytes + ' bytes';
+    else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+    else return (bytes / 1048576).toFixed(1) + ' MB';
+  }
+  
+// Form submission with background processing
+taskForm.onsubmit = function(e) {
+  e.preventDefault();
+  
+  // All fields collection
+  const assigneeName = document.getElementById('assigneeName').value;
+  const doerName = document.getElementById('doerName').value;
+  const projectName = document.getElementById('projectName').value;
+  const taskDescription = document.getElementById('taskDescription').value;
+  const dueDate = document.getElementById('dueDate').value;
+  const evidenceRequired = document.getElementById('evidenceRequired').value;
+  
+  // NEW FIELDS CAPTURED
+  const approval = document.getElementById('approvalRequired').value;
+  const recurring = document.getElementById('isRecurring').value;
+
+  // Validation (Added new fields to check)
+  if (!assigneeName || !doerName || !projectName || !taskDescription || !evidenceRequired || !approval || !recurring) {
+    errorMessage.textContent = 'Please fill in all required fields';
+    errorMessage.style.display = 'block';
+    return;
+  }
+
+  // Format date to DD/MM/YYYY only if a date was provided
+  const formattedDate = dueDate ? formatDate(dueDate) : '';
+
+  // UI State: Loading
+  const submitBtn = taskForm.querySelector('[type="submit"]');
+  const originalBtnText = submitBtn.textContent;
+  submitBtn.textContent = 'Assigning...';
+  submitBtn.disabled = true;
+
+  // Get username logic
+  let username = '';
+  const userNameElement = document.getElementById('userName');
+  if (userNameElement && userNameElement.textContent) {
+    username = userNameElement.textContent;
+  } else if (window.localStorage && localStorage.getItem('username')) {
+    username = localStorage.getItem('username');
+  } else {
+    username = 'User-' + new Date().getTime();
+  }
+
+  // PREPARE TASK DATA (Updated with new fields)
+  const taskData = {
+    assigneeName: assigneeName,
+    doerName: doerName,
+    projectName: projectName,
+    taskDescription: taskDescription,
+    dueDate: formattedDate,
+    evidenceRequired: evidenceRequired,
+    approvalRequired: approval, // Added for Column P
+    recurring: recurring,        // Added for Column Q
+    username: username,
+    attachments: []
+  };
+  
+  console.log("Submitting task with new fields:", taskData); // Debug log
+  
+  // Show success message after 2 seconds
+  setTimeout(function() {
+    successMessage.style.display = 'block';
+    errorMessage.style.display = 'none';
+    
+    // Reset button state
+    submitBtn.textContent = originalBtnText;
+    submitBtn.disabled = false;
+    
+    // Clear form and UI
+    taskForm.reset();
+    if (typeof resetRecording === "function") resetRecording();
+    if (document.getElementById('fileInfo')) document.getElementById('fileInfo').innerHTML = '';
+    selectedFiles = [];
+    
+    // Close modal and refresh data
+    setTimeout(function() {
+      if (typeof modal !== 'undefined') modal.style.display = 'none';
+      else if (document.getElementById('taskModal')) document.getElementById('taskModal').style.display = 'none';
+      
+      google.script.run
+        .withSuccessHandler(initializeData)
+        .withFailureHandler(showError)
+        .getData(window.SESSION_TOKEN);
+    }, 1000);
+  }, 2000);
+  
+  // IMPORTANT: This passes the updated data to the background process
+  processFormInBackground(taskData);
+};
+  
+  // Background processing function
+  function processFormInBackground(taskData) {
+    // Process voice note if it exists
+    if (audioBlob) {
+      processAudioInBackground(audioBlob, taskData);
+    } else {
+      // No voice note, continue with just the files
+      processFilesInBackground(taskData);
+    }
+  }
+  
+  // Process audio in background
+  function processAudioInBackground(audioBlob, taskData) {
+    const reader = new FileReader();
+    reader.readAsDataURL(audioBlob);
+    
+    reader.onloadend = function() {
+      const base64data = reader.result.split(',')[1];
+      
+      // Add voice note to task data
+      taskData.voiceNote = {
+        data: base64data,
+        type: audioBlob.type,
+        name: 'voice_note.wav'
+      };
+      
+      // Continue with file processing
+      processFilesInBackground(taskData);
+    };
+    
+    reader.onerror = function(error) {
+      console.error('Error processing audio:', error);
+      // Continue with file processing even if audio fails
+      processFilesInBackground(taskData);
+    };
+  }
+  
+  // Process files in background
+  function processFilesInBackground(taskData) {
+    // If no files, submit directly
+    if (selectedFiles.length === 0) {
+      submitTaskInBackground(taskData);
+      return;
+    }
+    
+    let processedFiles = 0;
+    
+    // Process each file
+    selectedFiles.forEach((fileObj, index) => {
+      const file = fileObj.file;
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      
+      reader.onloadend = function() {
+        const base64data = reader.result.split(',')[1];
+        
+        // Add to attachments array
+        taskData.attachments.push({
+          data: base64data,
+          type: file.type,
+          name: file.name
+        });
+        
+        processedFiles++;
+        
+        // If all files processed, submit the task
+        if (processedFiles === selectedFiles.length) {
+          submitTaskInBackground(taskData);
+        }
+      };
+      
+      reader.onerror = function(error) {
+        console.error('Error processing file:', file.name, error);
+        processedFiles++;
+        
+        // Continue even if some files fail
+        if (processedFiles === selectedFiles.length) {
+          submitTaskInBackground(taskData);
+        }
+      };
+    });
+  }
+  
+  // Submit task in background
+  function submitTaskInBackground(taskData) {
+    // Submit to Google Script in background
+    google.script.run
+      .withSuccessHandler(function(response) {
+        console.log('Background task submission successful:', response);
+      })
+      .withFailureHandler(function(error) {
+        console.error('Background task submission failed:', error);
+        // We don't show errors to the user since we already showed success
+      })
+      .assignTaskWithAttachments(taskData);
+  }
+}
+
+function formatDate(dateString) {
+  // If dateString is empty or undefined, return an empty string
+  if (!dateString) {
+    return '';
+  }
+  
+  try {
+    const date = new Date(dateString);
+    
+    // Check if date is valid
+    if (isNaN(date.getTime())) {
+      return ''; // Return empty string for invalid dates
+    }
+    
+    // Format as DD/MM/YYYY HH:MM:SS
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+    
+    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+  } catch (error) {
+    console.error('Error formatting date:', error);
+    return ''; // Return empty string on any error
+  }
+}
+
+
+// Function to open the add EA remark modal
+function openAddEARemarkModal(taskId, assignee, currentRemarks) {
+  // Get the modal element or create it if it doesn't exist
+  let modal = document.getElementById('addEARemarkModal');
+  
+  if (!modal) {
+    // Create the modal if it doesn't exist
+    modal = document.createElement('div');
+    modal.id = 'addEARemarkModal';
+    modal.className = 'modal';
+    
+    // Create modal content
+    modal.innerHTML = `
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Add EA Remark</h2>
+          <span class="close" id="closeAddEARemarkModal">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div class="task-info">
+            <div class="task-id-container">Task ID: <span id="addEARemarkTaskId"></span></div>
+            <div class="task-assignee-container">Assignee: <span id="addEARemarkAssignee"></span></div>
+          </div>
+          <div class="form-group">
+            <label for="eaRemarkText">New Remark:</label>
+            <textarea id="eaRemarkText" required placeholder="Enter your remark here..."></textarea>
+          </div>
+          <div class="current-remarks">
+            <h3>Current Remarks:</h3>
+            <div id="currentEARemarksContainer" style="max-height: 200px; overflow-y: auto; padding: 10px; background-color: #f5f5f5; border-radius: 4px;"></div>
+          </div>
+          <div id="eaRemarkSuccessMessage" class="success-message">Remark added successfully!</div>
+          <div id="eaRemarkErrorMessage" class="error-message">Error adding remark. Please try again.</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancelAddEARemarkBtn">Cancel</button>
+          <button type="button" class="btn btn-primary" id="submitEARemarkBtn">Submit Remark</button>
+        </div>
+      </div>
+    `;
+    
+    // Add the modal to the document body
+    document.body.appendChild(modal);
+    
+    // Add event listeners for the modal
+    document.getElementById('closeAddEARemarkModal').addEventListener('click', function() {
+      modal.style.display = 'none';
+    });
+    
+    document.getElementById('cancelAddEARemarkBtn').addEventListener('click', function() {
+      modal.style.display = 'none';
+    });
+    
+    // Close modal when clicking outside
+    window.addEventListener('click', function(event) {
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+    
+    // Add submit button functionality
+    document.getElementById('submitEARemarkBtn').addEventListener('click', function() {
+      submitEARemark();
+    });
+  }
+  
+  // Update the modal content with task info
+  document.getElementById('addEARemarkTaskId').textContent = taskId;
+  document.getElementById('addEARemarkAssignee').textContent = assignee;
+  
+  // Reset form and messages
+  document.getElementById('eaRemarkText').value = '';
+  document.getElementById('eaRemarkSuccessMessage').style.display = 'none';
+  document.getElementById('eaRemarkErrorMessage').style.display = 'none';
+  
+  // Display current remarks if any
+  const currentRemarksContainer = document.getElementById('currentEARemarksContainer');
+  currentRemarksContainer.innerHTML = '';
+  
+  if (currentRemarks && currentRemarks.trim()) {
+    const remarks = parseRemarksToArray(currentRemarks);
+    if (remarks.length > 0) {
+      const remarksList = document.createElement('div');
+      remarksList.className = 'remarks-timeline';
+      remarksList.style.paddingLeft = '0';
+      
+      remarks.forEach(remark => {
+        const remarkItem = document.createElement('div');
+        remarkItem.className = 'remark-item';
+        remarkItem.style.marginBottom = '10px';
+        
+        const dateSpan = document.createElement('span');
+        dateSpan.className = 'remark-date';
+        dateSpan.textContent = remark.date;
+        
+        const textSpan = document.createElement('span');
+        textSpan.className = 'remark-text';
+        textSpan.textContent = remark.text;
+        
+        remarkItem.appendChild(dateSpan);
+        remarkItem.appendChild(textSpan);
+        
+        remarksList.appendChild(remarkItem);
+      });
+      
+      currentRemarksContainer.appendChild(remarksList);
+    } else {
+      currentRemarksContainer.textContent = 'No previous remarks.';
+    }
+  } else {
+    currentRemarksContainer.textContent = 'No previous remarks.';
+  }
+  
+  // Show the modal
+  modal.style.display = 'block';
+}
+
+// Function to submit a new EA remark
+function submitEARemark() {
+  const taskId = document.getElementById('addEARemarkTaskId').textContent;
+  const remarkText = document.getElementById('eaRemarkText').value.trim();
+  const successMessage = document.getElementById('eaRemarkSuccessMessage');
+  const errorMessage = document.getElementById('eaRemarkErrorMessage');
+  
+  // Validate input
+  if (!remarkText) {
+    errorMessage.textContent = 'Please enter a remark.';
+    errorMessage.style.display = 'block';
+    return;
+  }
+  
+  // Log for debugging
+  console.log('Submitting EA remark for Task ID:', taskId);
+  
+  // Get current date and time for the remark
+  const now = new Date();
+  const day = now.getDate().toString().padStart(2, '0');
+  const month = (now.getMonth() + 1).toString().padStart(2, '0');
+  const year = now.getFullYear();
+  const hours = now.getHours().toString().padStart(2, '0');
+  const minutes = now.getMinutes().toString().padStart(2, '0');
+  
+  // Format the remark with date
+  const formattedRemark = `${day}/${month}/${year}, ${hours}:${minutes} - ${remarkText}`;
+  
+  console.log('Formatted EA remark:', formattedRemark);
+  
+  // Show loading state
+  const submitBtn = document.getElementById('submitEARemarkBtn');
+  const originalBtnText = submitBtn.textContent;
+  submitBtn.textContent = 'Submitting...';
+  submitBtn.disabled = true;
+  
+  // Call Google Script function to update the sheet
+  google.script.run
+    .withSuccessHandler(function(response) {
+      console.log('Server response:', response);
+      
+      // Show success message
+      successMessage.style.display = 'block';
+      errorMessage.style.display = 'none';
+      
+      // Reset button state
+      submitBtn.textContent = originalBtnText;
+      submitBtn.disabled = false;
+      
+      // Close the modal after a delay
+      setTimeout(function() {
+        document.getElementById('addEARemarkModal').style.display = 'none';
+        
+        // Refresh data to show the new remark
+        console.log('Refreshing data...');
+        google.script.run
+          .withSuccessHandler(function(data) {
+            console.log('Data refreshed successfully');
+            initializeData(data);
+          })
+          .withFailureHandler(function(refreshError) {
+            console.error('Error refreshing data:', refreshError);
+            showError(refreshError);
+          })
+          .getData(window.SESSION_TOKEN);
+      }, 1500);
+    })
+    .withFailureHandler(function(error) {
+      console.error('Error from server:', error);
+      
+      // Show error message
+      errorMessage.textContent = 'Error adding remark: ' + error;
+      errorMessage.style.display = 'block';
+      successMessage.style.display = 'none';
+      
+      // Reset button state
+      submitBtn.textContent = originalBtnText;
+      submitBtn.disabled = false;
+    })
+    .addEARemark(taskId, formattedRemark);
+}
+
+// Add this CSS to your existing styles
+// You can add this in a <style> tag or in your CSS file
+const eaRemarkStyles = `
+/* EA Remark Icons Container */
+.ea-remark-icons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Make icon hover effect more noticeable for edit icon */
+.ea-remarks-icon.edit-icon:hover {
+  background-color: #e2f1ff;
+  transform: scale(1.1);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  color: #0d6efd;
+}
+`;
+// Modal styles ko head mein add karna
+function addEAStyles() {
+  const eaRemarkStyles = `
+    .ea-remark-icons { display: flex; align-items: center; gap: 10px; }
+    .remarks-icon:hover { background-color: #e2f1ff; transform: scale(1.1); color: #0d6efd; }
+  `;
+  const styleElement = document.createElement('style');
+  styleElement.textContent = eaRemarkStyles;
+  document.head.appendChild(styleElement);
+}
+
+// Page load par styles aur initialization
+document.addEventListener('DOMContentLoaded', function() {
+  addEAStyles();
+  
+  // Form Submit Listener
+  const taskForm = document.getElementById('taskForm');
+  if (taskForm) {
+    taskForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      assignTask(); // Humne saara logic assignTask function mein daal diya hai
+    });
+  }
+});
+
+// Main Function: Task Assign karna
+function assignTask() {
+  const submitBtn = document.querySelector('#taskForm button[type="submit"]');
+  const successMsg = document.getElementById('successMessage');
+  const errorMsg = document.getElementById('errorMessage');
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Saving...';
+
+  // Data collect karna (HTML IDs match kar rahe hain)
+  const taskData = {
+    assignee: document.getElementById('assigneeName').value,
+    doer: document.getElementById('doerName').value,
+    project: document.getElementById('projectName').value,
+    description: document.getElementById('taskDescription').value,
+    dueDate: document.getElementById('dueDate').value,
+    evidence: document.getElementById('evidenceRequired').value,
+    approval: document.getElementById('approvalRequired').value, // Index 15 (Column P)
+    recurring: document.getElementById('isRecurring').value    // Index 16 (Column Q)
+  };
+
+  // Debugging ke liye console check karein
+  console.log("Sending Task Data:", taskData);
+
+  google.script.run
+    .withSuccessHandler(function(res) {
+      if (res.success) {
+        successMsg.style.display = 'block';
+        setTimeout(() => {
+          document.getElementById('taskModal').style.display = 'none';
+          document.getElementById('taskForm').reset();
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Assign Task';
+          if (typeof loadData === "function") loadData();
+        }, 1500);
+      } else {
+        handleError("Backend Error: " + res.error);
+      }
+    })
+    .withFailureHandler(handleError)
+    .assignTaskWithAttachments(taskData);
+
+  function handleError(err) {
+    errorMsg.textContent = "Error: " + err;
+    errorMsg.style.display = 'block';
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Assign Task';
+  }
+}
+
+
+  </script>
+</body>
+
+</html>
